@@ -1,0 +1,2153 @@
+{
+  "rooms": {
+    "lobby": {
+      "id": "lobby",
+      "name": "Lobby",
+      "settings": {},
+      "messages": [],
+      "users": [],
+      "locked": false,
+      "topic": "",
+      "mutedUsers": [],
+      "slowMode": false,
+      "contentProtection": false,
+      "allowGuests": true,
+      "owner": "admin",
+      "admins": [],
+      "roles": [],
+      "allowedRoles": [
+        "moderator",
+        "super",
+        "admin",
+        "owner",
+        "developer"
+      ],
+      "memberAllowedRoles": [
+        "member",
+        "moderator",
+        "super",
+        "admin",
+        "owner",
+        "developer"
+      ]
+    }
+  },
+  "users": [
+    {
+      "id": "c31e8a06-9fa3-4c23-8649-30646e318064",
+      "username": "Admin",
+      "password": "$2a$10$fGR8nFsMrtx31Zyn3xTS4.qGwJbZ00i2cGrxGzH61wv3jQ3f7PaSW",
+      "email": "admin@stickpm.com",
+      "phone": "",
+      "name": "Admin User",
+      "profilePhoto": "",
+      "role": "developer",
+      "games": true,
+      "code": "",
+      "verified": true
+    },
+    {
+      "id": "testuser",
+      "username": "Test User",
+      "role": "tester",
+      "roomsAccess": [
+        "lobby"
+      ],
+      "isGuest": false
+    },
+    {
+      "id": "f564345e-91ac-4fc6-9aed-a52eeb141b61",
+      "username": "register",
+      "password": "$2a$10$BA9.bfIOz5OuBpqpIuV4Le59OqRewOa7X9WllYvAbvFALL5lcy2Su",
+      "email": "contactstickpm@gmail.com",
+      "phone": "",
+      "firstName": "",
+      "lastName": "",
+      "profilePhoto": "",
+      "code": "1MO5PzfBCVCLJlj1",
+      "approveAvatar": false,
+      "verified": false,
+      "games": true,
+      "role": "member",
+      "roomsAccess": [],
+      "following": [],
+      "blocked": []
+    },
+    {
+      "id": "dd634213-933c-40fb-b3ba-ea3e624013dc",
+      "username": "wowens",
+      "password": "$2a$10$.mh57iIUb6HSUfQECB1xcO7AyhUJB8mVxmM4SeXxoELA6qKiyVKYK",
+      "email": "johnlaurence4121@gmail.com",
+      "phone": "",
+      "firstName": "",
+      "lastName": "",
+      "profilePhoto": "",
+      "code": "sac6",
+      "approveAvatar": false,
+      "verified": true,
+      "games": true,
+      "role": "member",
+      "roomsAccess": [],
+      "following": [],
+      "blocked": []
+    }
+  ],
+  "messages": {
+    "Lobby": [
+      {
+        "id": "08ede4f0-8734-48e7-acf0-74bebde68249",
+        "user": "Guest_ttyyAN",
+        "text": "Hiii",
+        "timestamp": 1723328180306,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "hiii"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "369719ac-0cc5-43f1-8f27-86c03a583203",
+        "user": "Guest_9MKYqe",
+        "text": "Hiii",
+        "timestamp": 1723328335064,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "hiii"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "c441599d-5098-46c8-89b3-4f24515f00eb",
+        "user": "Guest_EsNLh4",
+        "text": "Hi",
+        "timestamp": 1723346068647,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "hi"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "59c2be03-b592-49e0-8031-1b36882bff6e",
+        "user": "Guest_sFRj3z",
+        "text": "i was about to restart server and do some test",
+        "timestamp": 1723346075698,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "i",
+            "was",
+            "about",
+            "to",
+            "restart",
+            "server",
+            "and",
+            "do",
+            "some",
+            "test"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "c6391a12-3ab7-40f1-a696-5e57fbcadbba",
+        "user": "Guest_EsNLh4",
+        "text": "Oh ok",
+        "timestamp": 1723346087938,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "oh",
+            "ok"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "d5afb3e9-6b2f-4a2d-a598-86691aea9e4c",
+        "user": "Guest_sFRj3z",
+        "text": "I logged in the ssh noticed a guest was active",
+        "timestamp": 1723346093981,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "active": 1
+            }
+          ],
+          "tokens": [
+            "i",
+            "logged",
+            "in",
+            "the",
+            "ssh",
+            "noticed",
+            "a",
+            "guest",
+            "was",
+            "active"
+          ],
+          "words": [
+            "active"
+          ],
+          "positive": [
+            "active"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "58c65a74-b727-4a69-854d-345b6896c84e",
+        "user": "Guest_sFRj3z",
+        "text": "yeah last 3 days been updating register and login",
+        "timestamp": 1723346109207,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "yeah": 1
+            }
+          ],
+          "tokens": [
+            "yeah",
+            "last",
+            "3",
+            "days",
+            "been",
+            "updating",
+            "register",
+            "and",
+            "login"
+          ],
+          "words": [
+            "yeah"
+          ],
+          "positive": [
+            "yeah"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "46f21fb1-92b9-40b5-bb3c-fa998dcfb8b6",
+        "user": "Guest_EsNLh4",
+        "text": "Yeah, I made an account and I can't log it in",
+        "timestamp": 1723346114975,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "yeah": 1
+            }
+          ],
+          "tokens": [
+            "yeah",
+            "i",
+            "made",
+            "an",
+            "account",
+            "and",
+            "i",
+            "can't",
+            "log",
+            "it",
+            "in"
+          ],
+          "words": [
+            "yeah"
+          ],
+          "positive": [
+            "yeah"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "b2ae0fa6-5fac-4248-8957-ccaecd78a4ea",
+        "user": "Guest_sFRj3z",
+        "text": "trying to fine tune it to protect users",
+        "timestamp": 1723346118222,
+        "sentiment": {
+          "score": 3,
+          "comparative": 1.5,
+          "calculation": [
+            {
+              "protect": 1
+            },
+            {
+              "fine": 2
+            }
+          ],
+          "tokens": [
+            "trying",
+            "to",
+            "fine",
+            "tune",
+            "it",
+            "to",
+            "protect",
+            "users"
+          ],
+          "words": [
+            "protect",
+            "fine"
+          ],
+          "positive": [
+            "protect",
+            "fine"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "67ffdfa7-dda1-4bed-9013-ffd1177e3aa8",
+        "user": "Guest_EsNLh4",
+        "text": "Cool",
+        "timestamp": 1723346128640,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "cool": 1
+            }
+          ],
+          "tokens": [
+            "cool"
+          ],
+          "words": [
+            "cool"
+          ],
+          "positive": [
+            "cool"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "b0b661fb-a98b-4c69-a475-d3d3b02e12a5",
+        "user": "Guest_sFRj3z",
+        "text": "cool you may be able after verifying it",
+        "timestamp": 1723346132593,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "cool": 1
+            }
+          ],
+          "tokens": [
+            "cool",
+            "you",
+            "may",
+            "be",
+            "able",
+            "after",
+            "verifying",
+            "it"
+          ],
+          "words": [
+            "cool"
+          ],
+          "positive": [
+            "cool"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "ebfb92c7-a631-4c5d-9574-32442a3914ea",
+        "user": "Guest_sFRj3z",
+        "text": "through email but the old code probably wasnt clear",
+        "timestamp": 1723346142741,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "clear": 1
+            }
+          ],
+          "tokens": [
+            "through",
+            "email",
+            "but",
+            "the",
+            "old",
+            "code",
+            "probably",
+            "wasnt",
+            "clear"
+          ],
+          "words": [
+            "clear"
+          ],
+          "positive": [
+            "clear"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "02281ed3-d832-47a3-b9a7-b47a90551dea",
+        "user": "Guest_EsNLh4",
+        "text": "Imma hop off then, do your thing",
+        "timestamp": 1723346143944,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "imma",
+            "hop",
+            "off",
+            "then",
+            "do",
+            "your",
+            "thing"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "cad5818c-99a5-4ad3-9059-d3605b3e2101",
+        "user": "Guest_sFRj3z",
+        "text": "this ones not much different but the emailing is also kinda iffy rn",
+        "timestamp": 1723346155911,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "this",
+            "ones",
+            "not",
+            "much",
+            "different",
+            "but",
+            "the",
+            "emailing",
+            "is",
+            "also",
+            "kinda",
+            "iffy",
+            "rn"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": null
+        }
+      },
+      {
+        "id": "88c92610-e1ba-4561-ad32-370e1778f614",
+        "user": "Guest_sFRj3z",
+        "text": "have not fully tested it",
+        "timestamp": 1723346162012,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "have",
+            "not",
+            "fully",
+            "tested",
+            "it"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": null
+        }
+      },
+      {
+        "id": "2df5bf3f-f9da-459c-9d6c-062026dfe76a",
+        "user": "Guest_sFRj3z",
+        "text": "cool",
+        "timestamp": 1723346180360,
+        "sentiment": {
+          "score": 1,
+          "comparative": 1,
+          "calculation": [
+            {
+              "cool": 1
+            }
+          ],
+          "tokens": [
+            "cool"
+          ],
+          "words": [
+            "cool"
+          ],
+          "positive": [
+            "cool"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "d4e6f3d4-23f5-4bb7-8156-0d73cc545362",
+        "user": "Guest_EsNLh4",
+        "text": "It sent me codes after I requested a code for forgot password",
+        "timestamp": 1723346193698,
+        "sentiment": {
+          "score": -1,
+          "comparative": -1,
+          "calculation": [
+            {
+              "forgot": -1
+            }
+          ],
+          "tokens": [
+            "it",
+            "sent",
+            "me",
+            "codes",
+            "after",
+            "i",
+            "requested",
+            "a",
+            "code",
+            "for",
+            "forgot",
+            "password"
+          ],
+          "words": [
+            "forgot"
+          ],
+          "positive": [],
+          "negative": [
+            "forgot"
+          ],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "8001d088-a334-49c4-ab4e-acfc05ff2980",
+        "user": "Guest_RWzb6Z",
+        "text": "Sup!?",
+        "timestamp": 1723641049553,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "sup"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "fe164633-59b7-40df-b8ac-6c7d7e8d008e",
+        "user": "Guest_2iNaWK",
+        "text": "??",
+        "timestamp": 1723706816547,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            ""
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "19219450-d040-495e-ae36-bc412e64ea6d",
+        "user": "Guest_Qoq3h9",
+        "text": "yoyo",
+        "timestamp": 1724066583976,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "yoyo"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "f96b240a-c1e1-4304-a6f3-a996b80a8673",
+        "user": "Guest_wySHYq",
+        "text": "hmm",
+        "timestamp": 1724146507364,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "hmm"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "d528384d-5582-439a-ba4d-53d7c7407f2c",
+        "user": "Admin",
+        "text": "yo",
+        "timestamp": 1724401907422,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "yo"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "ee95e21b-8f5e-4b5d-a4e8-fe100e4601b8",
+        "user": "Guest_TcSrH9",
+        "text": "hi",
+        "timestamp": 1724957536583,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "hi"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "48bbc0b2-ff8d-45ed-a86a-c6940c8df0ad",
+        "user": "Admin",
+        "text": "lol",
+        "timestamp": 1725030759956,
+        "sentiment": {
+          "score": 3,
+          "comparative": 3,
+          "calculation": [
+            {
+              "lol": 3
+            }
+          ],
+          "tokens": [
+            "lol"
+          ],
+          "words": [
+            "lol"
+          ],
+          "positive": [
+            "lol"
+          ],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "448ed578-921d-41fe-84f2-bac75ad11234",
+        "user": "Guest_KnzQTI",
+        "text": "asd",
+        "timestamp": 1725154322891,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "asd"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      },
+      {
+        "id": "bf4b4a20-2e3d-4a5f-9e8e-2236b5106c20",
+        "user": "Guest_KnzQTI",
+        "text": "ola, fala",
+        "timestamp": 1725154384142,
+        "sentiment": {
+          "score": 0,
+          "comparative": null,
+          "calculation": [],
+          "tokens": [
+            "ola",
+            "fala"
+          ],
+          "words": [],
+          "positive": [],
+          "negative": [],
+          "contextScore": 1
+        }
+      }
+    ]
+  },
+  "leaderboards": {},
+  "roles": [],
+  "files": {},
+  "streams": [
+    {
+      "id": "9ba70315-e1e0-4cfe-ba55-e20ade706ef4",
+      "roomId": "Lobby",
+      "username": "Admin",
+      "active": true
+    }
+  ],
+  "follows": {},
+  "rateLimits": {},
+  "activities": [
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-08T03:44:39.339Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T03:49:39.348Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T03:49:44.356Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T03:54:44.357Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T04:02:04.409Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T04:03:52.345Z"
+    },
+    {
+      "userId": "Guest_hEh4VK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T04:08:52.360Z"
+    },
+    {
+      "userId": "Guest_FBIOwB",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-08T04:27:06.103Z"
+    },
+    {
+      "userId": "Guest_FBIOwB",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T04:32:06.110Z"
+    },
+    {
+      "userId": "Guest_FBIOwB",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T04:32:10.350Z"
+    },
+    {
+      "userId": "Guest_FBIOwB",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-08T04:36:00.239Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-08T20:31:27.688Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T20:36:27.053Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T20:45:13.236Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T20:45:14.049Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T20:50:14.067Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T20:55:43.645Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-08T20:55:45.041Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-08T21:00:45.060Z"
+    },
+    {
+      "userId": "Guest_Y42OfN",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-08T21:53:19.315Z"
+    },
+    {
+      "userId": "Guest_meInnq",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T02:01:47.699Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T02:06:21.590Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:11:21.592Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T02:11:28.011Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:16:28.014Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:38:32.844Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T02:39:39.026Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:44:39.030Z"
+    },
+    {
+      "userId": "Guest_fcvoG2",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T02:46:01.288Z"
+    },
+    {
+      "userId": "Guest_fcvoG2",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T02:46:07.611Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:51:12.630Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T02:53:10.023Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T02:58:10.031Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T03:07:58.923Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T03:08:02.019Z"
+    },
+    {
+      "userId": "Guest_0jTUNP",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:10:33.007Z"
+    },
+    {
+      "userId": "Guest_ghoGWl",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:11:37.047Z"
+    },
+    {
+      "userId": "Guest_ghoGWl",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:12:22.270Z"
+    },
+    {
+      "userId": "Guest_7cVPQC",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:12:34.839Z"
+    },
+    {
+      "userId": "Guest_7cVPQC",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:12:36.784Z"
+    },
+    {
+      "userId": "Guest_EbkEIn",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:13:16.258Z"
+    },
+    {
+      "userId": "Guest_EbkEIn",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:13:20.093Z"
+    },
+    {
+      "userId": "Guest_ud96F5",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:17:27.452Z"
+    },
+    {
+      "userId": "Guest_ud96F5",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:18:22.381Z"
+    },
+    {
+      "userId": "Guest_TIoIJ0",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:32:54.840Z"
+    },
+    {
+      "userId": "Guest_m6xE7O",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:33:25.190Z"
+    },
+    {
+      "userId": "Guest_m6xE7O",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:33:26.756Z"
+    },
+    {
+      "userId": "Guest_vlB8xT",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:36:36.013Z"
+    },
+    {
+      "userId": "Guest_vlB8xT",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:36:37.583Z"
+    },
+    {
+      "userId": "Guest_5BLIul",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:39:57.083Z"
+    },
+    {
+      "userId": "Guest_5BLIul",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:39:59.020Z"
+    },
+    {
+      "userId": "Guest_97QFo2",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:41:07.315Z"
+    },
+    {
+      "userId": "Guest_97QFo2",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:41:11.220Z"
+    },
+    {
+      "userId": "Guest_fKPD9g",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:44:41.959Z"
+    },
+    {
+      "userId": "Guest_fKPD9g",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:44:43.637Z"
+    },
+    {
+      "userId": "Guest_fKPD9g",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:44:44.581Z"
+    },
+    {
+      "userId": "Guest_YiPNfE",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:47:15.820Z"
+    },
+    {
+      "userId": "Guest_YiPNfE",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:47:17.812Z"
+    },
+    {
+      "userId": "Guest_AHE9IV",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:47:46.764Z"
+    },
+    {
+      "userId": "Guest_AHE9IV",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:47:48.428Z"
+    },
+    {
+      "userId": "Guest_mIZWHi",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:49:25.633Z"
+    },
+    {
+      "userId": "Guest_mIZWHi",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:49:27.409Z"
+    },
+    {
+      "userId": "Guest_5b6FaB",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:50:09.619Z"
+    },
+    {
+      "userId": "Guest_5b6FaB",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:50:11.936Z"
+    },
+    {
+      "userId": "Guest_ukxTfR",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:51:41.250Z"
+    },
+    {
+      "userId": "Guest_ukxTfR",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:51:43.006Z"
+    },
+    {
+      "userId": "Guest_ukxTfR",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:51:43.690Z"
+    },
+    {
+      "userId": "Guest_ukxTfR",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:51:45.734Z"
+    },
+    {
+      "userId": "Guest_ukxTfR",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:51:46.389Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:52:43.452Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T03:52:45.030Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T03:52:45.948Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T03:57:45.953Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T03:57:49.029Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T04:02:49.042Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T04:08:57.927Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T04:08:59.121Z"
+    },
+    {
+      "userId": "Guest_EE4OKA",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T04:09:04.311Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T04:13:22.633Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T04:13:25.269Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T04:13:26.152Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T04:16:56.744Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T04:37:04.922Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T04:42:04.927Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T04:45:57.036Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T04:50:57.037Z"
+    },
+    {
+      "userId": "Guest_SUU6D2",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T05:20:18.839Z"
+    },
+    {
+      "userId": "Guest_SUU6D2",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T05:25:18.843Z"
+    },
+    {
+      "userId": "Guest_SUU6D2",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T05:26:07.518Z"
+    },
+    {
+      "userId": "Guest_SUU6D2",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T05:28:22.268Z"
+    },
+    {
+      "userId": "Guest_0beElh",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T06:07:58.574Z"
+    },
+    {
+      "userId": "Guest_0beElh",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T06:12:58.042Z"
+    },
+    {
+      "userId": "Guest_0beElh",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T06:17:58.044Z"
+    },
+    {
+      "userId": "Guest_MwpOb4",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T09:03:22.946Z"
+    },
+    {
+      "userId": "Guest_MwpOb4",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T09:08:22.970Z"
+    },
+    {
+      "userId": "Guest_MwpOb4",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T09:08:23.055Z"
+    },
+    {
+      "userId": "Guest_RvhJK6",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T09:10:11.689Z"
+    },
+    {
+      "userId": "Guest_RvhJK6",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T09:15:11.693Z"
+    },
+    {
+      "userId": "Guest_RvhJK6",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T09:15:36.054Z"
+    },
+    {
+      "userId": "Guest_RvhJK6",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T09:20:36.062Z"
+    },
+    {
+      "userId": "Guest_RvhJK6",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-09T09:59:30.546Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-09T21:47:01.063Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T21:52:01.056Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T21:57:01.058Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T22:06:04.227Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T22:07:10.451Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T22:14:51.145Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T22:16:21.291Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T22:21:21.307Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T22:34:24.370Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T22:34:25.308Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T22:39:25.325Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T23:34:56.423Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-09T23:34:57.819Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-09T23:39:57.835Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-10T00:51:28.585Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-10T02:40:21.507Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-10T02:40:39.602Z"
+    },
+    {
+      "userId": "Guest_ttyyAN",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-10T22:15:59.319Z"
+    },
+    {
+      "userId": "Guest_ttyyAN",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-10T22:16:41.751Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-10T22:18:44.843Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-10T22:19:09.342Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-10T22:20:57.164Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-10T22:21:17.408Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:10:46.254Z"
+    },
+    {
+      "userId": "Guest_9MKYqe",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T03:11:00.563Z"
+    },
+    {
+      "userId": "Guest_EsNLh4",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:13:33.928Z"
+    },
+    {
+      "userId": "Guest_sFRj3z",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:14:20.452Z"
+    },
+    {
+      "userId": "Guest_sFRj3z",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T03:16:30.619Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:28:58.206Z"
+    },
+    {
+      "userId": "Guest_WZd2Y8",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:33:32.924Z"
+    },
+    {
+      "userId": "Guest_WZd2Y8",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-11T03:38:32.927Z"
+    },
+    {
+      "userId": "Guest_WZd2Y8",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T03:41:10.070Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T03:52:17.100Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T03:52:39.906Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T04:14:38.488Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T04:14:40.703Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-11T04:14:47.711Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-11T04:17:39.284Z"
+    },
+    {
+      "userId": "Guest_1zDzJA",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-12T21:33:41.330Z"
+    },
+    {
+      "userId": "Guest_1zDzJA",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-12T21:33:47.128Z"
+    },
+    {
+      "userId": "Guest_BSVQcA",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-14T08:43:50.103Z"
+    },
+    {
+      "userId": "Guest_pWmDSc",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-14T08:44:04.929Z"
+    },
+    {
+      "userId": "Guest_pWmDSc",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-14T08:44:11.634Z"
+    },
+    {
+      "userId": "Guest_Lvo8hs",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-14T09:33:13.714Z"
+    },
+    {
+      "userId": "Guest_Lvo8hs",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-14T09:33:18.611Z"
+    },
+    {
+      "userId": "Guest_RWzb6Z",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-14T13:10:44.137Z"
+    },
+    {
+      "userId": "Guest_RWzb6Z",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-14T13:15:44.140Z"
+    },
+    {
+      "userId": "Guest_RWzb6Z",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-14T13:16:23.030Z"
+    },
+    {
+      "userId": "Guest_RWzb6Z",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-14T13:21:23.033Z"
+    },
+    {
+      "userId": "Guest_RWzb6Z",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-14T19:40:55.840Z"
+    },
+    {
+      "userId": "Guest_9DSCkF",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-15T04:15:10.208Z"
+    },
+    {
+      "userId": "Guest_9DSCkF",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-15T04:15:14.754Z"
+    },
+    {
+      "userId": "Guest_2iNaWK",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-15T07:26:46.581Z"
+    },
+    {
+      "userId": "Guest_2iNaWK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-15T07:31:46.583Z"
+    },
+    {
+      "userId": "Guest_2iNaWK",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-15T07:35:09.328Z"
+    },
+    {
+      "userId": "Guest_2iNaWK",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-15T07:40:09.331Z"
+    },
+    {
+      "userId": "Guest_2iNaWK",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-15T09:06:02.740Z"
+    },
+    {
+      "userId": "Guest_6MEAX0",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-16T19:10:44.257Z"
+    },
+    {
+      "userId": "Guest_6MEAX0",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-16T19:15:44.265Z"
+    },
+    {
+      "userId": "Guest_6MEAX0",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-16T19:16:54.392Z"
+    },
+    {
+      "userId": "Guest_6MEAX0",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-16T19:21:54.395Z"
+    },
+    {
+      "userId": "Guest_6MEAX0",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-17T06:10:13.719Z"
+    },
+    {
+      "userId": "Guest_z1FKkq",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-17T21:15:07.520Z"
+    },
+    {
+      "userId": "Guest_z1FKkq",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-17T21:15:14.197Z"
+    },
+    {
+      "userId": "Guest_mKP7iv",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-18T12:18:32.530Z"
+    },
+    {
+      "userId": "Guest_mKP7iv",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-18T12:23:32.531Z"
+    },
+    {
+      "userId": "Guest_mKP7iv",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-18T12:23:49.815Z"
+    },
+    {
+      "userId": "Guest_mKP7iv",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-18T12:28:49.822Z"
+    },
+    {
+      "userId": "Guest_mKP7iv",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-18T13:02:02.241Z"
+    },
+    {
+      "userId": "Guest_Qoq3h9",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-19T11:22:57.040Z"
+    },
+    {
+      "userId": "Guest_Qoq3h9",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-19T11:23:08.057Z"
+    },
+    {
+      "userId": "Guest_blKcZP",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-19T14:46:10.556Z"
+    },
+    {
+      "userId": "Guest_blKcZP",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-19T14:46:15.061Z"
+    },
+    {
+      "userId": "Guest_LNgqBl",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-19T20:13:29.402Z"
+    },
+    {
+      "userId": "Guest_LNgqBl",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-19T20:15:33.861Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-19T20:19:07.779Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T20:24:07.781Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-19T20:33:56.224Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-19T20:33:57.545Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T20:38:57.547Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-19T20:49:20.109Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T20:56:33.448Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-19T20:59:01.425Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T21:04:04.512Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-19T21:05:54.969Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T21:12:03.645Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-19T21:12:48.404Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-19T21:18:46.705Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-19T21:18:46.708Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-19T21:23:38.795Z"
+    },
+    {
+      "userId": "Guest_wySHYq",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-20T09:17:26.800Z"
+    },
+    {
+      "userId": "Guest_wySHYq",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-20T10:43:35.940Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-20T11:02:17.522Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-20T11:05:33.871Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-20T11:37:05.381Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-20T11:42:05.381Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-20T11:42:08.279Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-20T11:47:08.284Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-20T11:58:13.790Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-20T11:58:29.287Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-20T12:03:29.292Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-20T13:41:29.606Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-22T02:50:37.091Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-22T02:50:40.459Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-23T08:31:39.913Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-23T08:36:39.915Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-23T08:36:49.685Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-23T08:41:49.686Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-23T09:09:10.430Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-24T16:32:39.347Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-24T16:32:57.075Z"
+    },
+    {
+      "userId": "Guest_8N8XdS",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-27T23:09:49.170Z"
+    },
+    {
+      "userId": "Guest_8N8XdS",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-27T23:09:54.393Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-29T01:39:16.204Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-29T01:39:20.143Z"
+    },
+    {
+      "userId": "Guest_kySqyC",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-29T15:10:03.925Z"
+    },
+    {
+      "userId": "Guest_kySqyC",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-29T15:10:11.178Z"
+    },
+    {
+      "userId": "Guest_TcSrH9",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-29T18:52:09.500Z"
+    },
+    {
+      "userId": "Guest_TcSrH9",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-29T18:52:31.572Z"
+    },
+    {
+      "userId": "Guest_jjs08T",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-29T22:22:33.063Z"
+    },
+    {
+      "userId": "Guest_jjs08T",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-29T22:22:44.602Z"
+    },
+    {
+      "userId": "Guest_qv6nZQ",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-29T23:17:02.160Z"
+    },
+    {
+      "userId": "Guest_qv6nZQ",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-29T23:17:07.757Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T02:18:07.751Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T02:18:11.361Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T13:06:30.174Z"
+    },
+    {
+      "userId": "Guest_fX4mG2",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T13:08:04.001Z"
+    },
+    {
+      "userId": "Guest_fX4mG2",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T13:08:26.318Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-30T13:11:30.177Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T13:28:43.334Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T13:28:44.794Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-30T13:33:44.796Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-30T13:39:55.940Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T13:40:25.395Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T13:40:26.829Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-30T13:45:26.835Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-08-30T13:45:45.923Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-08-30T13:50:45.929Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T15:12:42.833Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T15:12:44.251Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T15:12:58.831Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-30T15:13:00.483Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-30T15:15:18.660Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-31T14:11:47.535Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-31T14:12:32.264Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-08-31T16:37:00.987Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-08-31T16:37:03.405Z"
+    },
+    {
+      "userId": "Guest_KnzQTI",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T01:31:46.228Z"
+    },
+    {
+      "userId": "Guest_KnzQTI",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T01:36:46.232Z"
+    },
+    {
+      "userId": "Guest_KnzQTI",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T01:37:47.329Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T02:14:44.751Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T02:14:49.577Z"
+    },
+    {
+      "userId": "Guest_5GwgrC",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T09:05:52.136Z"
+    },
+    {
+      "userId": "Guest_5GwgrC",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T09:06:36.317Z"
+    },
+    {
+      "userId": "Guest_5GwgrC",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T09:08:25.769Z"
+    },
+    {
+      "userId": "Guest_5GwgrC",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T09:09:27.143Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T10:02:39.510Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T10:02:43.004Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T10:04:20.309Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T10:04:23.744Z"
+    },
+    {
+      "userId": "Guest_0EFbk3",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T13:54:38.023Z"
+    },
+    {
+      "userId": "Guest_0EFbk3",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T13:54:44.731Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T13:57:31.557Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T14:02:31.558Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-09-01T14:02:56.051Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T14:10:14.228Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-09-01T14:15:36.666Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T14:23:44.974Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-09-01T14:23:45.161Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T14:32:34.570Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-09-01T14:37:38.955Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to away",
+      "timestamp": "2024-09-01T14:44:37.145Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Updated status to online",
+      "timestamp": "2024-09-01T14:47:06.686Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T14:48:11.539Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Joined room Lobby",
+      "timestamp": "2024-09-01T14:48:12.866Z"
+    },
+    {
+      "userId": "Admin",
+      "activity": "Exited room Lobby",
+      "timestamp": "2024-09-01T14:48:38.682Z"
+    }
+  ],
+  "recordings": [],
+  "polls": [],
+  "clips": [],
+  "recommendations": [],
+  "analytics": [],
+  "loyaltyPoints": [],
+  "badges": [],
+  "socialShares": []
+}
