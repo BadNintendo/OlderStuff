@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Donut Shape</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #000; /* Dark background */
+      margin: 0;
+    }
+    canvas {
+      border: 1px solid black;
+      background-color: #fff; /* Light background for the canvas */
+    }
+    input {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <div>
+    <label for="speed">Speed:</label>
+    <input type="number" id="speed" value="0.09" step="0.001">
+    <button id="reset">Reset</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const width = 150;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const numDots = 50;
+    const dotSize = width * 0.075; // 7.5% of the total width
+    let speed = parseFloat(document.getElementById('speed').value);
+    const dots = Array.from({ length: numDots }, (_, i) => ({
+      angle: (i / numDots) * 2 * Math.PI,
+      distance: width / 2,
+    }));
+    const dotPositions = [];
+
+    const updateSpeed = () => {
+      speed = parseFloat(document.getElementById('speed').value);
+    };
+
+    const resetAnimation = () => {
+      speed = 0.09;
+      document.getElementById('speed').value = speed;
+    };
+
+    const drawDot = (dot, i) => {
+      const x = centerX + dot.distance * Math.cos(dot.angle);
+      const y = centerY + dot.distance * Math.sin(dot.angle);
+      ctx.beginPath();
+      ctx.arc(x, y, dotSize / 2, 0, 2 * Math.PI);
+      ctx.fillStyle = `rgba(0, 0, 255, ${1 - i / numDots})`;
+      ctx.fill();
+    };
+
+    const updateDot = (dot, i) => {
+      dot.angle += speed;
+      dot.distance += 0.001;
+      if (dot.angle >= 2 * Math.PI) dot.angle -= 2 * Math.PI;
+      if (dot.distance > width / 2 * 0.84) dot.distance -= width * 0.16;
+
+      // Check for overlaps and adjust direction
+      const x = centerX + dot.distance * Math.cos(dot.angle);
+      const y = centerY + dot.distance * Math.sin(dot.angle);
+      dots.forEach((otherDot, j) => {
+        if (i !== j) {
+          const otherX = centerX + otherDot.distance * Math.cos(otherDot.angle);
+          const otherY = centerY + otherDot.distance * Math.sin(otherDot.angle);
+          const distance = Math.sqrt((x - otherX) ** 2 + (y - otherY) ** 2);
+          if (distance < dotSize) {
+            if (x < centerX) {
+              dot.angle -= 0.01;
+            } else {
+              dot.angle += 0.01;
+            }
+            if (y < centerY) {
+              dot.distance -= 0.01;
+            } else {
+              dot.distance += 0.01;
+            }
+          }
+        }
+      });
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, width / 2, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      dots.forEach((dot, i) => {
+        drawDot(dot, i);
+        updateDot(dot, i);
+      });
+
+      // Gather positions every 60ms
+      if (dotPositions.length === 0 || performance.now() - dotPositions[dotPositions.length - 1].time >= 60) {
+        dotPositions.push({
+          time: performance.now(),
+          positions: dots.map(dot => ({
+            x: centerX + dot.distance * Math.cos(dot.angle),
+            y: centerY + dot.distance * Math.sin(dot.angle)
+          }))
+        });
+      }
+
+      requestAnimationFrame(animate);
+    };
+
+    document.getElementById('speed').addEventListener('input', updateSpeed);
+    document.getElementById('reset').addEventListener('click', resetAnimation);
+
+    animate();
+  </script>
+</body>
+</html>

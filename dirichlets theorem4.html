@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dirichlet Theorem Visualization</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="primeCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('primeCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let primes = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let animationFrameId;
+        let isAnimating = true;
+		let numofPrimes = 30000;
+        
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function generatePrimes() {
+            for (let num = 1; num < numofPrimes; num++) {
+                if (isPrime(6 * num + 1)) {
+                    primes.push(6 * num + 1);
+                }
+            }
+        }
+
+        function drawPrimeChart() {
+            const centerX = width / 2;
+            const centerY = height / 2;
+            let angleIncrement = 2 * Math.PI / 360;
+            let radius = 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(centerX, centerY);
+
+            primes.forEach((prime, index) => {
+                let angle = index * angleIncrement;
+                let x = radius * Math.cos(angle);
+                let y = radius * Math.sin(angle);
+                ctx.fillStyle = colors[(index % 9)];
+                ctx.fillText(prime, x, y);
+                if (index > 0) {
+                    let prevAngle = (index - 1) * angleIncrement;
+                    let prevX = radius * Math.cos(prevAngle);
+                    let prevY = radius * Math.sin(prevAngle);
+                    ctx.strokeStyle = colors[(index % 9)];
+                    ctx.beginPath();
+                    ctx.moveTo(prevX, prevY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+                radius += 0.1;
+            });
+
+            ctx.restore();
+        }
+
+        function animate() {
+            primes.push(primes.shift()); // Rotate primes
+            drawPrimeChart();
+            if (isAnimating) {
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        }
+
+        canvas.addEventListener('wheel', function(event) {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (event.deltaY < 0) {
+                zoomLevel *= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) * 1.1;
+                offsetY = mouseY - (mouseY - offsetY) * 1.1;
+            } else {
+                zoomLevel /= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) / 1.1;
+                offsetY = mouseY - (mouseY - offsetY) / 1.1;
+            }
+            drawPrimeChart();
+        });
+
+        canvas.addEventListener('click', function() {
+            if (isAnimating) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                animate();
+            }
+            isAnimating = !isAnimating;
+        });
+
+        generatePrimes();
+        drawPrimeChart();
+        animate();
+    </script>
+</body>
+</html>

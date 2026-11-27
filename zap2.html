@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <script>
+const zap = (...conditions) => {
+    console.log("Input conditions:", conditions.join(', '));
+
+    // Parse conditions
+    const comparisons = conditions.map(condition => {
+        const match = condition.match(/([><=]+)(\d+)/);
+        if (match) {
+            const operator = match[1];
+            const value = parseFloat(match[2]);
+            return {
+                operator,
+                value,
+                func: (num) => {
+                    switch(operator) {
+                        case '>': return num > value;
+                        case '<': return num < value;
+                        case '>=': return num >= value;
+                        case '<=': return num <= value;
+                        default: return false;
+                    }
+                }
+            };
+        }
+    }).filter(Boolean);
+
+    // Sample numbers array
+    const numbers = [100, 200, 300, 400, 50, 150, 250];
+    
+    // Main logic
+    let results = [];
+    let i = 0;
+    while (i < numbers.length) {
+        const num = numbers[i];
+        let match = null;
+        let highestValue = 0;
+
+        for (const comp of comparisons) {
+            if (comp.func(num)) {
+                if (match === null || comp.value > highestValue) {
+                    match = comp;
+                    highestValue = comp.value;
+                }
+            }
+        }
+
+        if (match) {
+            results.push(highestValue);
+        } else {
+            results.push(0);
+            continue; // Skip to next number since there's no match
+        }
+
+        // Check if we have processed all numbers
+        if (i === numbers.length - 1) break;
+        i++; // Move to the next number
+    }
+
+    // Determine the final result
+    const maxResult = Math.max(...results);
+    const finalResult = results.reduce((acc, val, index) => 
+        val === maxResult ? numbers[index] : (acc === null || val > acc ? numbers[index] : acc), null) || 0;
+
+    console.log("Sorted results based on conditions:", results);
+    console.log("Final result:", finalResult);
+};
+
+// Example usage
+zap(">148", ">=<248<=", ">48<");
+</script>
+</head>
+<body></body></html>

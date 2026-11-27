@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gauss's Law Visualization</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    canvas {
+      border: 2px solid #333;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gaussCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gaussCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let isRunning = true;
+    const maxLength = canvas.width / 2; // Maximum distance the field lines can move
+
+    document.body.addEventListener('click', () => {
+      isRunning = !isRunning;
+      if (isRunning) animate();
+    });
+
+    const gaussianSurface = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 150,
+    };
+
+    const charge = {
+      x: gaussianSurface.x,
+      y: gaussianSurface.y,
+    };
+
+    const fieldLines = [];
+    const numFieldLines = 20;
+    const fieldSpeed = 2;
+
+    for (let i = 0; i < numFieldLines; i++) {
+      const angle = (i / numFieldLines) * (2 * Math.PI);
+      fieldLines.push({
+        x: charge.x,
+        y: charge.y,
+        angle: angle,
+        length: 0,
+      });
+    }
+
+    function drawGaussianSurface() {
+      ctx.beginPath();
+      ctx.arc(gaussianSurface.x, gaussianSurface.y, gaussianSurface.radius, 0, Math.PI * 2);
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function drawFieldLines() {
+      fieldLines.forEach(line => {
+        const xEnd = charge.x + Math.cos(line.angle) * line.length;
+        const yEnd = charge.y + Math.sin(line.angle) * line.length;
+
+        ctx.beginPath();
+        ctx.moveTo(charge.x, charge.y);
+        ctx.lineTo(
+          charge.x + Math.cos(line.angle) * gaussianSurface.radius,
+          charge.y + Math.sin(line.angle) * gaussianSurface.radius
+        );
+        ctx.strokeStyle = '#ff0000';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        if (line.length > gaussianSurface.radius) {
+          ctx.beginPath();
+          ctx.moveTo(
+            charge.x + Math.cos(line.angle) * gaussianSurface.radius,
+            charge.y + Math.sin(line.angle) * gaussianSurface.radius
+          );
+          ctx.lineTo(xEnd, yEnd);
+          ctx.strokeStyle = '#007bff';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+
+        if (isRunning) {
+          line.length += fieldSpeed;
+          if (line.length > maxLength) {
+            line.length = 0; // Reset the length after reaching the max distance
+          }
+        }
+      });
+    }
+
+    function animate() {
+      if (!isRunning) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGaussianSurface();
+      drawFieldLines();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

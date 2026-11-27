@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gauss's Law Visualization</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    canvas {
+      border: 2px solid #333;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gaussCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gaussCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let isRunning = true;
+    const maxLength = canvas.width / 2; // Maximum distance the field dots can move
+
+    document.body.addEventListener('click', () => {
+      isRunning = !isRunning;
+      if (isRunning) animate();
+    });
+
+    const gaussianSurface = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 150,
+    };
+
+    const charge = {
+      x: gaussianSurface.x,
+      y: gaussianSurface.y,
+    };
+
+    const fieldDots = [];
+    const numFieldDots = 20;
+    const fieldSpeed = 2;
+    const dotSizeIncrement = 0.20;
+
+    for (let i = 0; i < numFieldDots; i++) {
+      const angle = (i / numFieldDots) * (2 * Math.PI);
+      fieldDots.push({
+        x: charge.x,
+        y: charge.y,
+        angle: angle,
+        length: 0,
+        size: dotSizeIncrement,
+      });
+    }
+
+    function drawGaussianSurface() {
+      ctx.beginPath();
+      ctx.arc(gaussianSurface.x, gaussianSurface.y, gaussianSurface.radius, 0, Math.PI * 2);
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function drawFieldDots() {
+      fieldDots.forEach(dot => {
+        const xPos = charge.x + Math.cos(dot.angle) * dot.length;
+        const yPos = charge.y + Math.sin(dot.angle) * dot.length;
+
+        ctx.beginPath();
+        ctx.arc(xPos, yPos, dot.size, 0, Math.PI * 2);
+        ctx.fillStyle = dot.length <= gaussianSurface.radius ? '#ff0000' : '#007bff';
+        ctx.fill();
+
+        if (isRunning) {
+          dot.length += fieldSpeed;
+          dot.size += dotSizeIncrement;
+          if (dot.length > maxLength) {
+            dot.length = 0;
+            dot.size = dotSizeIncrement;
+          }
+        }
+      });
+    }
+
+    function animate() {
+      if (!isRunning) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGaussianSurface();
+      drawFieldDots();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

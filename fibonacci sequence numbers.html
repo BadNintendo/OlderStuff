@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Pyramid with Colored Lines</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .row {
+            display: flex;
+        }
+        .block {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #000;
+            margin: 2px;
+            position: relative;
+        }
+        .strikethrough {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            transform: rotate(30deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="pyramid"></div>
+    <textarea id="textArea" rows="10" cols="50"></textarea>
+
+    <script>
+        function fibonacci(n) {
+            if (n <= 1) return n;
+            return fibonacci(n - 1) + fibonacci(n - 2);
+        }
+
+        function createPyramid(levels) {
+            const container = document.getElementById('pyramid');
+            const textArea = document.getElementById('textArea');
+            let fibIndex = 0;
+            let sequence = [];
+            const colors = ['red', 'blue', 'green', 'orange', 'purple', 'pink'];
+
+            for (let i = 1; i <= levels; i++) {
+                const row = document.createElement('div');
+                row.className = 'row';
+
+                for (let j = 0; j < i; j++) {
+                    const block = document.createElement('div');
+                    block.className = 'block';
+                    const fibValue = fibonacci(fibIndex);
+                    block.textContent = fibValue;
+
+                    if (fibIndex > 1) {
+                        const prev1 = sequence[fibIndex - 1];
+                        const prev2 = sequence[fibIndex - 2];
+                        const result = fibValue - prev1;
+                        textArea.value += `${fibValue} - ${prev1} = ${result}\n`;
+
+                        const line = document.createElement('div');
+                        line.className = 'strikethrough';
+                        line.style.backgroundColor = colors[fibIndex % colors.length];
+                        block.appendChild(line);
+
+                        const line2 = document.createElement('div');
+                        line2.className = 'strikethrough';
+                        line2.style.backgroundColor = colors[(fibIndex + 1) % colors.length];
+                        line2.style.transform = 'rotate(-30deg)';
+                        block.appendChild(line2);
+                    }
+
+                    fibIndex++;
+                    sequence.push(fibValue);
+                    row.appendChild(block);
+                }
+
+                container.appendChild(row);
+            }
+        }
+
+        createPyramid(8); // Change the number of levels here
+    </script>
+</body>
+</html>

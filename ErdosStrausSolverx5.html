@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erdos Straus Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input, select, button, textarea {
+            width: calc(100% - 30px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .scroll-container {
+            height: 100px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            margin-left: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .inputs-container {
+            margin-bottom: 10px;
+			overflow: auto;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        .input-group button {
+            width: 25px;
+            height: 25px;
+            font-size: 18px;
+            padding: 0;
+        }
+        .total {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="inputs-container" id="inputs-container">
+            <div class="input-group">
+                <input type="number" class="input-value" placeholder="Enter a value for A">
+                <button class="add-input" data-type="A">+</button>
+            </div>
+            <div class="input-group">
+                <input type="number" class="input-value" placeholder="Enter a value for B">
+                <button class="add-input" data-type="B">+</button>
+            </div>
+        </div>
+        <button id="addInputC">+ Add C</button>
+        <select id="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="+ | +">+ | +</option>
+            <option value="- | -">- | -</option>
+        </select>
+        <button id="calculate">Calculate</button>
+        <div class="scroll-container" id="results-container">
+            <pre id="results"></pre>
+        </div>
+        <input type="text" id="search" placeholder="Search...">
+        <input type="text" class="total" id="total" placeholder="Total" disabled>
+    </div>
+    <script>
+        /* Add more input fields dynamically */
+        const addInputField = label => {
+            const inputsContainer = document.getElementById('inputs-container');
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+            const newInput = document.createElement('input');
+            newInput.type = 'number';
+            newInput.className = 'input-value';
+            newInput.placeholder = `Enter a value for ${label}`;
+            const addButton = document.createElement('button');
+            addButton.className = 'add-input';
+            addButton.textContent = '+';
+            inputGroup.appendChild(newInput);
+            inputGroup.appendChild(addButton);
+            inputsContainer.appendChild(inputGroup);
+        };
+
+        /* Add more input fields for C when '+ Add C' button is clicked */
+        document.addEventListener('click', event => {
+		    if (event.target.id === 'addInputC' || event.target.classList.contains('add-input')) {
+				if (event.target.id === 'addInputC') event.target.style.display = 'none';
+		        let type = 'C';
+		        if (event.target.classList.contains('add-input')) {
+		            type = event.target.dataset.type || 'C';
+		        }
+		        addInputField(type);
+
+		        // Hide the "+" button once input is filled
+		        if (event.target.classList.contains('add-input')) {
+		            event.target.style.display = 'none';
+		        }
+		    }
+		});
+
+        /* Perform calculations and display results when 'Calculate' button is clicked */
+        document.getElementById('calculate').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('.input-value');
+            const values = Array.from(inputs).map(input => parseInt(input.value) || 0).filter(value => value !== 0);
+            const operation = document.getElementById('operation').value;
+            let results = '';
+            let total = 0;
+
+            /* Check if there are enough values to perform calculations */
+            if (values.length > 1) {
+                /* Perform and display results for all operations */
+                for (let i = 0; i < values.length - 1; i++) {
+                    for (let j = i + 1; j < values.length; j++) {
+                        const a = values[i];
+                        const b = values[j];
+                        results += `${a} + ${b} = ${a + b}\n`;
+                        results += `${a} - ${b} = ${a - b}\n`;
+
+                        for (let k = j + 1; k < values.length; k++) {
+                            const c = values[k];
+                            results += `${a} + ${c} = ${a + c}\n`;
+                            results += `${a} - ${c} = ${a - c}\n`;
+                            results += `${b} + ${c} = ${b + c}\n`;
+                            results += `${b} - ${c} = ${b - c}\n`;
+                            results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                            if (operation === '+ | +') {
+                                results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            }
+                            if (operation === '- | -') {
+                                results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                            }
+                        }
+                    }
+                }
+                total = values.reduce((acc, val) => acc + val, 0);
+            }
+
+            /* Display results in the results container */
+            document.getElementById('results').textContent = results;
+            document.getElementById('total').value = `Total: ${total}`;
+        });
+
+        /* Highlight search terms in the results when user inputs a search term */
+        document.getElementById('search').addEventListener('input', () => {
+            const searchValue = document.getElementById('search').value.trim();
+            const resultsContainer = document.getElementById('results-container');
+            const results = document.getElementById('results');
+            const regex = new RegExp(searchValue.replace(/\s+/g, "\\s+"), 'gi');
+            const highlightedResults = results.textContent.replace(regex, match => `<span class="highlight">${match}</span>`);
+
+            /* Highlight only if there are 3 spaces and 4 values */
+            if ((searchValue.match(/\s+/g) || []).length <= 3) {
+                results.innerHTML = highlightedResults;
+            } else {
+                results.innerHTML = results.textContent;
+            }
+        });
+    </script>
+<!-- 
+Basic Calculator Instructions:
+1. Enter values for 'A' and 'B' in the respective input fields.
+2. Click '+ Add C' to add a value for 'C' if needed.
+3. Use the "+" buttons next to the inputs to add more values.
+4. Select an operator from the dropdown menu.
+5. Click 'Calculate' to see the results for all operations.
+6. Use the 'Search' bar to highlight specific results within the scrollable results area.
+7. The total will be displayed in the 'Total' field, which can be copied but not edited.
+ -->
+</body>
+</html

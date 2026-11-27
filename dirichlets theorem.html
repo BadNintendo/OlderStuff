@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dirichlet Theorem Visualization</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="primeCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('primeCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function drawPrimeChart() {
+            const centerX = width / 2;
+            const centerY = height / 2;
+            let angleIncrement = 2 * Math.PI / 360;
+            let radius = 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+
+            for (let num = 1; num < 300000; num++) {
+                if (isPrime(6 * num + 1)) {
+                    let angle = num * angleIncrement;
+                    let x = centerX + radius * Math.cos(angle);
+                    let y = centerY + radius * Math.sin(angle);
+                    ctx.fillStyle = colors[(num % 9)];
+                    ctx.fillText(6 * num + 1, x, y);
+                    radius += 0.1;
+                }
+            }
+            ctx.restore();
+        }
+
+        canvas.addEventListener('wheel', function(event) {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (event.deltaY < 0) {
+                zoomLevel *= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) * 1.1;
+                offsetY = mouseY - (mouseY - offsetY) * 1.1;
+            } else {
+                zoomLevel /= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) / 1.1;
+                offsetY = mouseY - (mouseY - offsetY) / 1.1;
+            }
+            drawPrimeChart();
+        });
+
+        drawPrimeChart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+
+        #calculator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            cursor: move;
+        }
+
+        #clearButton {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #dc3545;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #clearButton:hover {
+            background: #c82333;
+        }
+
+        #resultsButton {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #resultsButton:hover {
+            background: #218838;
+        }
+
+        #resultsContainer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            max-width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            z-index: 5;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+    <div id="calculator">
+        <h2>Dynamic Graph Calculator</h2>
+        <input type="number" id="xValue" placeholder="Enter X value" />
+        <input type="number" id="yValue" placeholder="Enter Y value" />
+        <button id="plotButton">Plot Point</button>
+        <button id="clearButton">Clear Background</button>
+        <button id="resultsButton">Toggle Results</button>
+    </div>
+    <div id="resultsContainer">
+        <h3>Results</h3>
+        <ul id="resultsList"></ul>
+    </div>
+    <script>
+        const canvas = document.getElementById('background');
+        const ctx = canvas.getContext('2d');
+        const calculator = document.getElementById('calculator');
+        const clearButton = document.getElementById('clearButton');
+        const resultsButton = document.getElementById('resultsButton');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsList = document.getElementById('resultsList');
+        const plotButton = document.getElementById('plotButton');
+        const xValue = document.getElementById('xValue');
+        const yValue = document.getElementById('yValue');
+        let results = [];
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            redrawResults();
+        });
+
+        function plotPoint(x, y) {
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            results.push({ x, y });
+            updateResultsList();
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            results = [];
+            updateResultsList();
+			toggleResults();
+            xValue.value = null;
+            yValue.value = null;
+        }
+
+        function redrawResults() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            results.forEach(({ x, y }) => plotPoint(x, y));
+        }
+
+        function updateResultsList() {
+            resultsList.innerHTML = results.map(r => `<li>X: ${r.x}, Y: ${r.y}</li>`).join('');
+        }
+
+        function toggleResults() {
+            resultsContainer.style.display = resultsContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        plotButton.addEventListener('click', () => {
+            const x = parseInt(xValue.value);
+            const y = parseInt(yValue.value);
+            if (!isNaN(x) && !isNaN(y)) {
+                plotPoint(x, y);
+            }
+        });
+
+        clearButton.addEventListener('click', clearCanvas,);
+        resultsButton.addEventListener('click', toggleResults);
+
+        // Drag functionality for calculator
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        calculator.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - calculator.offsetLeft;
+            offsetY = e.clientY - calculator.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                calculator.style.left = `${e.clientX - offsetX}px`;
+                calculator.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+		
+		toggleResults();
+    </script>
+</body>
+</html>

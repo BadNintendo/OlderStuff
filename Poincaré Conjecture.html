@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Poincaré Conjecture Visualization</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        const primes = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let numObjects = 30;
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function generatePrimes() {
+            let num = 2;
+            while (primes.length < numObjects) {
+                if (isPrime(num)) {
+                    primes.push(num);
+                }
+                num++;
+            }
+        }
+
+        function drawVisualization() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            let radius = 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(centerX, centerY);
+
+            primes.forEach((prime, index) => {
+                let angle = index * (2 * Math.PI / primes.length) * 3.20;
+                let x = radius * Math.cos(angle);
+                let y = radius * Math.sin(angle);
+
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.fillRect(x, y, 10, 10);
+                radius += 10;
+            });
+
+            ctx.restore();
+        }
+
+        canvas.addEventListener('wheel', function(event) {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (event.deltaY < 0) {
+                zoomLevel *= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) * 1.1;
+                offsetY = mouseY - (mouseY - offsetY) * 1.1;
+            } else {
+                zoomLevel /= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) / 1.1;
+                offsetY = mouseY - (mouseY - offsetY) / 1.1;
+            }
+            drawVisualization();
+        });
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawVisualization();
+        });
+
+        generatePrimes();
+        drawVisualization();
+    </script>
+</body>
+</html>

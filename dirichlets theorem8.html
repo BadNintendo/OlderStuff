@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown Visualization</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="countdownCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('countdownCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let points = [];
+        let path = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isAnimating = true;
+
+        // Generate points by counting down from maxCount
+        const generatePoints = maxCount => {
+            for (let i = maxCount; i > 0; i--) {
+                points.push({ count: i, x: Math.random() * width, y: Math.random() * height });
+            }
+        };
+
+        // Draw points and connecting lines
+        const drawPoints = () => {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(width / 2, height / 2);
+
+            points.forEach((pointObj, index) => {
+                const { count, x, y } = pointObj;
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.fillText(count, x, y);
+
+                if (index > 0) {
+                    const prevPointObj = points[index - 1];
+                    ctx.strokeStyle = colors[index % colors.length];
+                    ctx.beginPath();
+                    ctx.moveTo(prevPointObj.x, prevPointObj.y);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            });
+
+            ctx.restore();
+        };
+
+        // Calculate distances between points
+        const calculateDistances = () => {
+            points.forEach((_, i) => {
+                for (let j = i + 1; j < points.length; j++) {
+                    const dx = points[i].x - points[j].x;
+                    const dy = points[i].y - points[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    path.push({ from: i, to: j, distance });
+                }
+            });
+        };
+
+        // Nearest neighbor algorithm to find the shortest path
+        const nearestNeighbor = () => {
+            let unvisited = new Set(points.map((_, i) => i));
+            let current = 0;
+            unvisited.delete(current);
+
+            while (unvisited.size > 0) {
+                let nearest = null;
+                let nearestDistance = Infinity;
+                unvisited.forEach(next => {
+                    const distance = path.find(p => (p.from === current && p.to === next) || (p.from === next && p.to === current)).distance;
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearest = next;
+                    }
+                });
+                unvisited.delete(nearest);
+                current = nearest;
+            }
+        };
+
+        // Animation loop
+        const animate = () => {
+            drawPoints();
+            if (isAnimating) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        // Zoom functionality
+        canvas.addEventListener('wheel', event => {
+            const { offsetX: mouseX, offsetY: mouseY } = event;
+            const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9;
+            zoomLevel *= zoomFactor;
+            offsetX = mouseX - (mouseX - offsetX) * zoomFactor;
+            offsetY = mouseY - (mouseY - offsetY) * zoomFactor;
+            drawPoints();
+        });
+
+        // Pause and resume animation on click
+        canvas.addEventListener('click', () => {
+            isAnimating = !isAnimating;
+            if (isAnimating) animate();
+        });
+
+        generatePoints(30000);
+        calculateDistances();
+        nearestNeighbor();
+        drawPoints();
+        animate();
+    </script>
+</body>
+</html>

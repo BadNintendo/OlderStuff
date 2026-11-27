@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="tooltip" id="tooltip"></div>
+    <script>
+const countErdosStrausSolutions = (n) => {
+    let count = 0;
+    for (let x = 1; x <= 4 * n; x++) {
+        for (let y = x; y <= 4 * n; y++) {
+            for (let z = y; z <= 4 * n; z++) {
+                if (4 * n * x * y * z == n * x * y * z + 4 * x * y + 4 * x * z + 4 * y * z) count++;
+            }
+        }
+    }
+    return count;
+};
+
+const drawGraph = (values, maxValues) => {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip');
+    const positions = [];
+    
+    const radius = 10;
+    const spacing = 100;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    const addPosition = (value, x, y, color) => {
+        positions.push({ value, x, y, color });
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#000';
+        ctx.fillText(value, x - radius / 2, y + radius / 2);
+    };
+
+    const generatePosition = (value) => {
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = spacing;
+        let x, y;
+        do {
+            x = centerX + distance * Math.cos(angle);
+            y = centerY + distance * Math.sin(angle);
+            distance += spacing;
+        } while (positions.some(pos => Math.hypot(x - pos.x, y - pos.y) < 2 * radius));
+        return { x, y };
+    };
+
+    values.forEach((value, index) => {
+        const { x, y } = generatePosition(value);
+        addPosition(value, x, y, '#007bff');
+    });
+
+    let currentCount = values.length;
+    while (currentCount < maxValues) {
+        let newValues = [];
+        positions.forEach(pos => {
+            let solutions = countErdosStrausSolutions(pos.value);
+            while (solutions > 0) {
+                let { x, y } = generatePosition(pos.value + solutions);
+                if (!positions.some(p => p.x === x && p.y === y)) {
+                    newValues.push(pos.value + solutions);
+                    addPosition(pos.value + solutions, x, y, '#808080');
+                    currentCount++;
+                    if (currentCount >= maxValues) return;
+                }
+                solutions--;
+            }
+        });
+        values = values.concat(newValues);
+    }
+
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        let found = false;
+        positions.forEach(pos => {
+            if (Math.hypot(mouseX - pos.x, mouseY - pos.y) < radius) {
+                tooltip.style.display = 'block';
+                tooltip.style.left = event.clientX + 'px';
+                tooltip.style.top = event.clientY + 'px';
+                tooltip.innerHTML = `Value: ${pos.value}`;
+                found = true;
+            }
+        });
+        if (!found) {
+            tooltip.style.display = 'none';
+        }
+    });
+};
+
+const initialValues = [2, 3, 10, 7, 18, 11, 26, 15, 34, 19]; // Example values
+drawGraph(initialValues, 20000);
+    </script>
+</body>
+</html>

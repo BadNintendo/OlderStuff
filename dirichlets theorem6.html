@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Visualization with TSP Concepts</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="primeCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('primeCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let primes = [];
+        let path = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let animationFrameId;
+        let isAnimating = true;
+        let numofPrimes = 1000;
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function generatePrimes() {
+            for (let num = 2; num < numofPrimes; num++) {
+                if (isPrime(num)) {
+                    primes.push({prime: num, x: Math.random() * width, y: Math.random() * height});
+                }
+            }
+        }
+
+        function drawPrimes() {
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(centerX, centerY);
+
+            primes.forEach((primeObj, index) => {
+                const { prime, x, y } = primeObj;
+                ctx.fillStyle = colors[(index % colors.length)];
+                ctx.fillText(prime, x, y);
+
+                if (index > 0) {
+                    const prevPrimeObj = primes[index - 1];
+                    ctx.strokeStyle = colors[(index % colors.length)];
+                    ctx.beginPath();
+                    ctx.moveTo(prevPrimeObj.x, prevPrimeObj.y);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            });
+
+            ctx.restore();
+        }
+
+        function calculateDistances() {
+            for (let i = 0; i < primes.length; i++) {
+                for (let j = i + 1; j < primes.length; j++) {
+                    const dx = primes[i].x - primes[j].x;
+                    const dy = primes[i].y - primes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    path.push({from: i, to: j, distance: distance});
+                }
+            }
+        }
+
+        function nearestNeighbor() {
+            let unvisited = new Set(primes.map((_, i) => i));
+            let current = 0;
+            unvisited.delete(current);
+
+            while (unvisited.size > 0) {
+                let nearest = null;
+                let nearestDistance = Infinity;
+                unvisited.forEach((next) => {
+                    const distance = path.find(p => (p.from === current && p.to === next) || (p.from === next && p.to === current)).distance;
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearest = next;
+                    }
+                });
+                unvisited.delete(nearest);
+                current = nearest;
+            }
+        }
+
+        function animate() {
+            drawPrimes();
+            if (isAnimating) {
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        }
+
+        canvas.addEventListener('wheel', function(event) {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (event.deltaY < 0) {
+                zoomLevel *= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) * 1.1;
+                offsetY = mouseY - (mouseY - offsetY) * 1.1;
+            } else {
+                zoomLevel /= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) / 1.1;
+                offsetY = mouseY - (mouseY - offsetY) / 1.1;
+            }
+            drawPrimes();
+        });
+
+        canvas.addEventListener('click', function() {
+            if (isAnimating) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                animate();
+            }
+            isAnimating = !isAnimating;
+        });
+
+        generatePrimes();
+        calculateDistances();
+        nearestNeighbor();
+        drawPrimes();
+        animate();
+    </script>
+</body>
+</html>

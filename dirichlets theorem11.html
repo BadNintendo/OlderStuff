@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Visualization with Nearest Neighbor</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="primeCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('primeCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let primes = [];
+        let sortedPath = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isAnimating = true;
+        let numofPrimes = 30000;
+
+        // Function to check if a number is prime
+        const isPrime = num => {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        };
+
+        // Generate prime numbers and their positions
+        const generatePrimes = numofPrimes => {
+            let count = 0;
+            let num = 2;
+            while (count < numofPrimes) {
+                if (isPrime(num)) {
+                    primes.push({ prime: num, x: Math.random(), y: Math.random() });
+                    count++;
+                }
+                num++;
+            }
+        };
+
+        // Function to compute Morton order (Z-order curve)
+        const mortonOrder = city => {
+            const spreadBits = v => {
+                v = (v | (v << 8)) & 0x00FF00FF;
+                v = (v | (v << 4)) & 0x0F0F0F0F;
+                v = (v | (v << 2)) & 0x33333333;
+                v = (v | (v << 1)) & 0x55555555;
+                return v;
+            };
+            const x = Math.floor(city.x * 10000);
+            const y = Math.floor(city.y * 10000);
+            return spreadBits(x) | (spreadBits(y) << 1);
+        };
+
+        // Function to sort primes based on Morton order and connect them
+        const sortAndConnectPrimes = primes => {
+            primes.sort((a, b) => mortonOrder(a) - mortonOrder(b));
+
+            let sortedPath = [primes[0]];
+            let unvisited = new Set(primes.slice(1).map((_, i) => i + 1));
+            let current = 0;
+
+            while (unvisited.size > 0) {
+                let nearest = null;
+                let nearestDistance = Infinity;
+                unvisited.forEach(next => {
+                    const dx = primes[current].x - primes[next].x;
+                    const dy = primes[current].y - primes[next].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearest = next;
+                    }
+                });
+                unvisited.delete(nearest);
+                current = nearest;
+                sortedPath.push(primes[current]);
+            }
+
+            sortedPath.push(primes[0]);
+            return sortedPath;
+        };
+
+        // Draw primes and connecting lines
+        const drawPrimes = () => {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+
+            sortedPath.forEach((primeObj, index) => {
+                const { prime, x, y } = primeObj;
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.fillText(prime, x, y);
+
+                if (index > 0) {
+                    const prevPrimeObj = sortedPath[index - 1];
+                    ctx.strokeStyle = colors[index % colors.length];
+                    ctx.beginPath();
+                    ctx.moveTo(prevPrimeObj.x, prevPrimeObj.y);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            });
+
+            ctx.restore();
+        };
+
+        // Animation loop
+        const animate = () => {
+            drawPrimes();
+            if (isAnimating) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        // Zoom functionality
+        canvas.addEventListener('wheel', event => {
+            const { offsetX: mouseX, offsetY: mouseY } = event;
+            const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9;
+            zoomLevel *= zoomFactor;
+            offsetX = mouseX - (mouseX - offsetX) * zoomFactor;
+            offsetY = mouseY - (mouseY - offsetY) * zoomFactor;
+            drawPrimes();
+        });
+
+        // Pause and resume animation on click
+        canvas.addEventListener('click', () => {
+            isAnimating = !isAnimating;
+            if (isAnimating) animate();
+        });
+
+        generatePrimes(numofPrimes);
+        sortedPath = sortAndConnectPrimes(primes);
+        drawPrimes();
+        animate();
+    </script>
+</body>
+</html>

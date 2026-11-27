@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #calculator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+    <div id="calculator">
+        <h2>Dynamic Graph Calculator</h2>
+        <input type="number" id="xValue" placeholder="Enter X value" />
+        <input type="number" id="yValue" placeholder="Enter Y value" />
+        <button id="plotButton">Plot Graph</button>
+        <button id="clearButton">Clear Graph</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('background');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        document.body.appendChild(tooltip);
+
+        let graphData = [];
+        let maxX = 0;
+        let maxY = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawGraph();
+        }
+
+        function calculateGraph(x, y) {
+            const result = [];
+            let currentX = x;
+            let currentY = y;
+            
+            while (currentX > 1 || currentY > 1) {
+                const nextX = currentX / 2;
+                const nextY = currentY / 2;
+
+                result.push({ x: currentX, y: currentY, nextX, nextY });
+                
+                maxX = Math.max(maxX, currentX);
+                maxY = Math.max(maxY, currentY);
+
+                currentX = nextX;
+                currentY = nextY;
+            }
+            graphData = result;
+        }
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+
+            graphData.forEach((point, index) => {
+                const { x, y, nextX, nextY } = point;
+                const scaledX = (x / maxX) * canvas.width;
+                const scaledY = canvas.height - (y / maxY) * canvas.height;
+                const scaledNextX = (nextX / maxX) * canvas.width;
+                const scaledNextY = canvas.height - (nextY / maxY) * canvas.height;
+
+                ctx.moveTo(scaledX, scaledY);
+                ctx.lineTo(scaledNextX, scaledNextY);
+                ctx.strokeStyle = `hsl(${(index / graphData.length) * 360}, 100%, 50%)`;
+                ctx.stroke();
+            });
+        }
+
+        function handleTooltip(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            graphData.forEach(point => {
+                const { x, y, nextX, nextY } = point;
+                const scaledX = (x / maxX) * canvas.width;
+                const scaledY = canvas.height - (y / maxY) * canvas.height;
+
+                if (Math.abs(mouseX - scaledX) < 5 && Math.abs(mouseY - scaledY) < 5) {
+                    tooltip.style.left = `${event.clientX + 10}px`;
+                    tooltip.style.top = `${event.clientY + 10}px`;
+                    tooltip.innerHTML = `X: ${x}, Y: ${y} → Next: (${nextX.toFixed(2)}, ${nextY.toFixed(2)})`;
+                    tooltip.style.display = 'block';
+                }
+            });
+        }
+
+        function clearTooltip() {
+            tooltip.style.display = 'none';
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        canvas.addEventListener('mousemove', handleTooltip);
+        canvas.addEventListener('mouseout', clearTooltip);
+
+        document.getElementById('plotButton').addEventListener('click', () => {
+            const x = parseFloat(document.getElementById('xValue').value);
+            const y = parseFloat(document.getElementById('yValue').value);
+
+            if (!isNaN(x) && !isNaN(y)) {
+                calculateGraph(x, y);
+                drawGraph();
+            }
+        });
+
+        document.getElementById('clearButton').addEventListener('click', () => {
+            graphData = [];
+            maxX = 0;
+            maxY = 0;
+            drawGraph();
+        });
+
+        resizeCanvas();
+    </script>
+</body>
+</html>

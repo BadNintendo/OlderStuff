@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langford Attractor with Earthquake Data</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #000;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 10px;
+        }
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .unselectable {
+            user-select: none;
+        }
+        .hud .two {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .hud ul {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="attractorCanvas" width="800" height="600"></canvas>
+    <div id="easycamhud" class="hud unselectable">
+        <h3>Parameters</h3>
+        <div>
+            <ul id="hud-left" class="two">
+                <li>a = 0.95</li>
+                <li>b = 0.7</li>
+                <li>c = 0.6</li>
+                <li>d = 3.5</li>
+                <li>e = 0.25</li>
+                <li>f = 0.1</li>
+                <li>----------</li>
+                <li>x<sub>0</sub> = 0.1</li>
+                <li>y<sub>0</sub> = 1.00</li>
+                <li>z<sub>0</sub> = 0.01</li>
+            </ul>
+            <ul id="hud-right" class="two"></ul>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="play">Play</button>
+        <button id="reverse">Reverse</button>
+        <button id="pause">Pause</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('attractorCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        let speed = 0.01;
+        let reverse = false;
+        let running = true;
+        const a = 0.95, b = 0.7, c = 0.6, d = 3.5, e = 0.25, f = 0.1;
+
+        // Function to calculate PI from scratch
+        function calculatePI(iterations = 1000000) {
+            let pi = 0;
+            let denominator = 1;
+            for (let i = 0; i < iterations; i++) {
+                if (i % 2 === 0) {
+                    pi += 4 / denominator;
+                } else {
+                    pi -= 4 / denominator;
+                }
+                denominator += 2;
+            }
+            return pi;
+        }
+
+        const PI = calculatePI();
+
+        // Function to update particles
+        function updateParticles() {
+            particles.forEach(p => {
+                const dx = (a * (p.y - p.x)) * speed * (reverse ? -1 : 1);
+                const dy = (p.x * (d - p.z) - p.y) * speed * (reverse ? -1 : 1);
+                const dz = (b * p.z + p.x * p.y - c * p.z * p.z) * speed * (reverse ? -1 : 1);
+
+                p.x += dx;
+                p.y += dy;
+                p.z += dz;
+            });
+        }
+
+        // Function to draw particles
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+
+            particles.forEach(p => {
+                const xPos = canvas.width / 2 + p.x;
+                const yPos = canvas.height / 2 + p.y;
+                ctx.beginPath();
+                ctx.arc(xPos, yPos, Math.abs(p.z * 0.1), 0, 2 * PI);
+                ctx.fill();
+            });
+        }
+
+        // Animation loop
+        function animate() {
+            if (running) {
+                updateParticles();
+                drawParticles();
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Control buttons
+        document.getElementById('play').addEventListener('click', () => {
+            speed = 0.01;
+            running = true;
+            animate();
+        });
+        document.getElementById('reverse').addEventListener('click', () => {
+            reverse = !reverse;
+        });
+        document.getElementById('pause').addEventListener('click', () => {
+            running = false;
+        });
+
+        // Fetch earthquake data and initialize particles
+        fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson')
+            .then(response => response.json())
+            .then(data => {
+                particles = data.features.map(quake => ({
+                    x: ((quake.geometry.coordinates[0] + 180) / 360) * canvas.width - canvas.width / 2,
+                    y: ((quake.geometry.coordinates[1] + 90) / 180) * canvas.height - canvas.height / 2,
+                    z: quake.geometry.coordinates[2]
+                }));
+                animate();
+            })
+            .catch(error => console.error('Error fetching earthquake data:', error));
+
+    </script>
+</body>
+</html>

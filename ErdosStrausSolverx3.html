@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erdos Straus Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input, select, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .scroll-container {
+            height: 100px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="number" id="inputA" placeholder="Enter a value for A">
+        <input type="number" id="inputB" placeholder="Enter a value for B">
+        <select id="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="+ | +">+ | +</option>
+            <option value="- | -">- | -</option>
+        </select>
+        <input type="number" id="inputC" placeholder="Enter a value for C" style="display: none;">
+        <button id="addC">+ Add C</button>
+        <button id="calculate">Calculate</button>
+        <div class="scroll-container" id="results-container">
+            <pre id="results"></pre>
+        </div>
+        <input type="text" id="search" placeholder="Search...">
+    </div>
+    <script>
+        /* Show input for 'c' when '+ Add C' button is clicked */
+        document.getElementById('addC').addEventListener('click', function() {
+            document.getElementById('inputC').style.display = 'block';
+            this.style.display = 'none';
+        });
+
+        /* Perform calculations and display results when 'Calculate' button is clicked */
+        document.getElementById('calculate').addEventListener('click', function() {
+            const a = parseInt(document.getElementById('inputA').value);
+            const b = parseInt(document.getElementById('inputB').value);
+            const cInput = document.getElementById('inputC').style.display === 'block';
+            const c = cInput ? parseInt(document.getElementById('inputC').value) : 0;
+            const operation = document.getElementById('operation').value;
+            let results = '';
+
+            /* Check if inputs are valid numbers */
+            if (!isNaN(a) && !isNaN(b) && (!cInput || !isNaN(c))) {
+                /* Perform and display results for all operations */
+                results += `${a} + ${b} = ${a + b}\n`;
+                results += `${a} - ${b} = ${a - b}\n`;
+                if (cInput) {
+                    results += `${a} + ${c} = ${a + c}\n`;
+                    results += `${a} - ${c} = ${a - c}\n`;
+                    results += `${b} + ${c} = ${b + c}\n`;
+                    results += `${b} - ${c} = ${b - c}\n`;
+                    results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                    results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                }
+                if (operation === '+ | +' && cInput) {
+                    results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                }
+                if (operation === '- | -' && cInput) {
+                    results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                }
+            }
+
+            /* Display results in the results container */
+            document.getElementById('results').textContent = results;
+        });
+
+        /* Highlight search terms in the results when user inputs a search term */
+        document.getElementById('search').addEventListener('input', function() {
+            const searchValue = this.value.trim();
+            const resultsContainer = document.getElementById('results-container');
+            const results = document.getElementById('results');
+            const regex = new RegExp(searchValue.replace(/\s+/g, "\\s+"), 'gi');
+            const highlightedResults = results.textContent.replace(regex, match => `<span class="highlight">${match}</span>`);
+
+            /* Highlight only if there are 3 spaces and 4 values */
+            if ((searchValue.match(/\s+/g) || []).length <= 3) {
+                results.innerHTML = highlightedResults;
+            } else {
+                results.innerHTML = results.textContent;
+            }
+        });
+    </script>
+<!-- 
+Basic Calculator Instructions:
+1. Enter values for 'A' and 'B' in the respective input fields.
+2. Optionally, add a value for 'C' by clicking on '+ Add C'.
+3. Select an operator from the dropdown menu.
+4. Click 'Calculate' to see the results for all operations.
+5. Use the 'Search' bar to highlight specific results within the scrollable results area.
+ -->
+</body>
+</html>

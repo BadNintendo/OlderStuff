@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erdos Straus Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input, select, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .scroll-container {
+            height: 100px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .inputs-container {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="inputs-container" id="inputs-container">
+            <input type="number" class="input-value" placeholder="Enter a value">
+        </div>
+        <button id="addInputA">+ Add A</button>
+        <button id="addInputB">+ Add B</button>
+        <button id="addInputC">+ Add C</button>
+        <select id="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="+ | +">+ | +</option>
+            <option value="- | -">- | -</option>
+        </select>
+        <button id="calculate">Calculate</button>
+        <div class="scroll-container" id="results-container">
+            <pre id="results"></pre>
+        </div>
+        <input type="text" id="search" placeholder="Search...">
+    </div>
+    <script>
+        /* Function to add input fields */
+        const addInputField = label => {
+            const inputsContainer = document.getElementById('inputs-container');
+            const newInput = document.createElement('input');
+            newInput.type = 'number';
+            newInput.className = 'input-value';
+            newInput.placeholder = `Enter a value for ${label}`;
+            inputsContainer.appendChild(newInput);
+        };
+
+        /* Event listeners for adding inputs */
+        document.getElementById('addInputA').addEventListener('click', () => addInputField('A'));
+        document.getElementById('addInputB').addEventListener('click', () => addInputField('B'));
+        document.getElementById('addInputC').addEventListener('click', () => addInputField('C'));
+
+        /* Perform calculations and display results when 'Calculate' button is clicked */
+        document.getElementById('calculate').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('.input-value');
+            const values = Array.from(inputs).map(input => parseInt(input.value) || 0).filter(value => value !== 0);
+            const operation = document.getElementById('operation').value;
+            let results = '';
+
+            /* Check if there are enough values to perform calculations */
+            if (values.length > 1) {
+                /* Perform and display results for all operations */
+                for (let i = 0; i < values.length - 1; i++) {
+                    for (let j = i + 1; j < values.length; j++) {
+                        const a = values[i];
+                        const b = values[j];
+                        results += `${a} + ${b} = ${a + b}\n`;
+                        results += `${a} - ${b} = ${a - b}\n`;
+
+                        for (let k = j + 1; k < values.length; k++) {
+                            const c = values[k];
+                            results += `${a} + ${c} = ${a + c}\n`;
+                            results += `${a} - ${c} = ${a - c}\n`;
+                            results += `${b} + ${c} = ${b + c}\n`;
+                            results += `${b} - ${c} = ${b - c}\n`;
+                            results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                            if (operation === '+ | +') {
+                                results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            }
+                            if (operation === '- | -') {
+                                results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                            }
+                        }
+                    }
+                }
+            }
+
+            /* Display results in the results container */
+            document.getElementById('results').textContent = results;
+        });
+
+        /* Highlight search terms in the results when user inputs a search term */
+        document.getElementById('search').addEventListener('input', () => {
+            const searchValue = document.getElementById('search').value.trim();
+            const resultsContainer = document.getElementById('results-container');
+            const results = document.getElementById('results');
+            const regex = new RegExp(searchValue.replace(/\s+/g, "\\s+"), 'gi');
+            const highlightedResults = results.textContent.replace(regex, match => `<span class="highlight">${match}</span>`);
+
+            /* Highlight only if there are 3 spaces and 4 values */
+            if ((searchValue.match(/\s+/g) || []).length <= 3) {
+                results.innerHTML = highlightedResults;
+            } else {
+                results.innerHTML = results.textContent;
+            }
+        });
+    </script>
+<!-- 
+Basic Calculator Instructions:
+1. Enter values for 'A', 'B', and additional values in the respective input fields.
+2. Click '+ Add A', '+ Add B', or '+ Add C' to add more values.
+3. Select an operator from the dropdown menu.
+4. Click 'Calculate' to see the results for all operations.
+5. Use the 'Search' bar to highlight specific results within the scrollable results area.
+ -->
+</body>
+</html>

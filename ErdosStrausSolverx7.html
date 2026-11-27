@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+
+        #calculator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        #resultsButton {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #resultsButton:hover {
+            background: #218838;
+        }
+
+        #resultsContainer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            max-width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            z-index: 5;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+    <div id="calculator">
+        <h2>Dynamic Graph Calculator</h2>
+        <input type="number" id="xValue" placeholder="Enter X value" />
+        <input type="number" id="yValue" placeholder="Enter Y value" />
+        <button id="plotButton">Plot Graph</button>
+        <button id="resultsButton">Show Results</button>
+    </div>
+    <div id="resultsContainer">
+        <h3>Results</h3>
+        <ul id="resultsList"></ul>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('background');
+        const ctx = canvas.getContext('2d');
+        const calculator = document.getElementById('calculator');
+        const plotButton = document.getElementById('plotButton');
+        const resultsButton = document.getElementById('resultsButton');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsList = document.getElementById('resultsList');
+
+        let results = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drawBackground();
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            const step = 20;
+
+            for (let x = 0; x < canvas.width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            for (let y = 0; y < canvas.height; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+
+        function plotGraph(x, y) {
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+            results.push({ x, y });
+            updateResults();
+        }
+
+        function updateResults() {
+            resultsList.innerHTML = '';
+            results.forEach((point, index) => {
+                const li = document.createElement('li');
+                li.textContent = `Point ${index + 1}: (X: ${point.x}, Y: ${point.y})`;
+                resultsList.appendChild(li);
+            });
+        }
+
+        plotButton.addEventListener('click', () => {
+            const x = parseFloat(document.getElementById('xValue').value) || 0;
+            const y = parseFloat(document.getElementById('yValue').value) || 0;
+            const canvasX = (x / 100) * canvas.width;
+            const canvasY = canvas.height - (y / 100) * canvas.height;
+            plotGraph(canvasX, canvasY);
+        });
+
+        resultsButton.addEventListener('click', () => {
+            resultsContainer.style.display = resultsContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+    </script>
+</body>
+</html>

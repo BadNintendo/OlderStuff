@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Mapping</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="upload" />
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const upload = document.getElementById('upload');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        upload.addEventListener('change', handleImage, false);
+
+        function handleImage(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    mapColors();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function mapColors() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const mappedColors = {};
+
+            for (let y = 0; y < canvas.height; y += 6) {
+                for (let x = 0; x < canvas.width; x += 6) {
+                    const index = (y * canvas.width + x) * 4;
+                    const rgba = `rgba(${data[index]},${data[index + 1]},${data[index + 2]},${data[index + 3] / 255})`;
+                    
+                    if (!mappedColors[rgba]) {
+                        mappedColors[rgba] = [];
+                    }
+
+                    if (isEdgePixel(x, y, canvas.width, canvas.height, data)) {
+                        mappedColors[rgba].push({ x, y });
+                    }
+                }
+            }
+
+            console.log(mappedColors);
+        }
+
+        function isEdgePixel(x, y, width, height, data) {
+            const threshold = 50; // Adjust this value as needed
+            const index = (y * width + x) * 4;
+            const centerColor = [data[index], data[index + 1], data[index + 2]];
+
+            // Check neighbors within 6x6 block
+            for (let i = -3; i <= 3; i++) {
+                for (let j = -3; j <= 3; j++) {
+                    if (i === 0 && j === 0) continue;
+                    const neighborX = x + i;
+                    const neighborY = y + j;
+                    if (neighborX >= 0 && neighborX < width && neighborY >= 0 && neighborY < height) {
+                        const neighborIndex = (neighborY * width + neighborX) * 4;
+                        const neighborColor = [data[neighborIndex], data[neighborIndex + 1], data[neighborIndex + 2]];
+                        if (colorDifference(centerColor, neighborColor) > threshold) {
+                            return true; // Edge pixel
+                        }
+                    }
+                }
+            }
+            return false; // Not an edge pixel
+        }
+
+        function colorDifference(color1, color2) {
+            return Math.sqrt(
+                Math.pow(color1[0] - color2[0], 2) +
+                Math.pow(color1[1] - color2[1], 2) +
+                Math.pow(color1[2] - color2[2], 2)
+            );
+        }
+    </script>
+</body>
+</html>

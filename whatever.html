@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind-Blowing Layout</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Header */
+        header {
+            background-color: #d50000;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        .name-container {
+            font-size: 2em;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .menu-toggle {
+            font-size: 1.5em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        .menu-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
+            left: -250px; /* Hidden by default */
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #222;
+            padding: 20px;
+            transition: left 0.4s ease;
+            z-index: 999;
+            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.7);
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            padding: 15px 10px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .sidebar li:hover {
+            background-color: #d50000;
+            color: #fff;
+        }
+
+        /* Search Area */
+        .search-area {
+            margin-top: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .search-box {
+            width: 50%;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            transition: box-shadow 0.3s ease;
+        }
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #d50000;
+        }
+
+        /* Results Container */
+        .results-container {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #333;
+            border-left: 5px solid #d50000;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+        .result-item:hover {
+            background-color: #444;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .name-container {
+                font-size: 1.4em;
+            }
+            .search-box {
+                width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="name-container">🔥 Epic Book Archive</div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li>Home</li>
+            <li>Books</li>
+            <li>Chapters</li>
+            <li>About Us</li>
+            <li>Contact</li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="search-area">
+            <div class="search-box">
+                <input type="text" placeholder="Search for books, chapters..." id="searchInput">
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <!-- Dynamic search results will appear here -->
+        </div>
+    </main>
+
+    <script>
+        // Sidebar Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            if (query.length > 0) {
+                resultsContainer.style.display = 'block';
+
+                // Simulated search results
+                for (let i = 1; i <= 5; i++) {
+                    const result = document.createElement('div');
+                    result.className = 'result-item';
+                    result.textContent = `Result ${i}: "${query}" in Book ${Math.ceil(i / 2)}, Chapter ${i}`;
+                    resultsContainer.appendChild(result);
+                }
+            } else {
+                resultsContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

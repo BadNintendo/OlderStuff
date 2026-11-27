@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prime Path Visualization with Polygraph</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="primeCanvas" width="2400" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('primeCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let primes = [];
+        let allPaths = [];
+        let bestPath = [];
+        let bestDistance = Infinity;
+        let currentPathIndex = 0;
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let animationFrameId;
+        let isAnimating = true;
+        let numofPrimes = 30000; // Increase number of primes to handle 30,000 paths
+
+        // Check if a number is prime
+        const isPrime = num => {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        };
+
+        // Generate primes with coordinates for visualization
+        const generatePrimes = () => {
+            for (let num = 2; primes.length < numofPrimes; num++) {
+                if (isPrime(num)) {
+                    primes.push({ prime: num, x: Math.random() * width / 2, y: Math.random() * height });
+                }
+            }
+        };
+
+        // Calculate distance between two points
+        const calculateDistance = (point1, point2) => {
+            const dx = point1.x - point2.x;
+            const dy = point1.y - point2.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        };
+
+        // Calculate total distance of a path
+        const calculateTotalDistance = path => {
+            let totalDistance = 0;
+            for (let i = 0; i < path.length - 1; i++) {
+                totalDistance += calculateDistance(path[i], path[i + 1]);
+            }
+            totalDistance += calculateDistance(path[path.length - 1], path[0]); // Return to start
+            return totalDistance;
+        };
+
+        // Permute an array recursively
+        const permute = (arr, l, r) => {
+            if (l === r) {
+                const currentDistance = calculateTotalDistance(arr);
+                if (currentDistance < bestDistance) {
+                    bestDistance = currentDistance;
+                    bestPath = [...arr];
+                }
+                allPaths.push([...arr]);
+            } else {
+                for (let i = l; i <= r; i++) {
+                    [arr[l], arr[i]] = [arr[i], arr[l]]; // Swap
+                    permute(arr, l + 1, r);
+                    [arr[l], arr[i]] = [arr[i], arr[l]]; // Swap back
+                }
+            }
+        };
+
+        // Draw primes in spiral pattern
+        const drawSpiralPrimes = () => {
+            const centerX = width / 4;
+            const centerY = height / 2;
+            let angleIncrement = 2 * Math.PI / 360;
+            let radius = 10;
+
+            ctx.clearRect(0, 0, width / 2, height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(centerX, centerY);
+
+            primes.forEach((primeObj, index) => {
+                const angle = index * angleIncrement;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                ctx.fillStyle = colors[(index % colors.length)];
+                ctx.fillText(primeObj.prime, x, y);
+                if (index > 0) {
+                    const prevAngle = (index - 1) * angleIncrement;
+                    const prevX = radius * Math.cos(prevAngle);
+                    const prevY = radius * Math.sin(prevAngle);
+                    ctx.strokeStyle = colors[(index % colors.length)];
+                    ctx.beginPath();
+                    ctx.moveTo(prevX, prevY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+                radius += 0.1;
+            });
+
+            ctx.restore();
+        };
+
+        // Draw primes in TSP pattern
+        const drawTSPPrimes = () => {
+            const centerX = (3 * width) / 4;
+            const centerY = height / 2;
+
+            ctx.clearRect(width / 2, 0, width / 2, height);
+            ctx.save();
+            ctx.translate(offsetX + width / 2, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(centerX, centerY);
+
+            const currentPath = allPaths[currentPathIndex];
+
+            currentPath.forEach((primeObj, index) => {
+                const { prime, x, y } = primeObj;
+                ctx.fillStyle = colors[(index % colors.length)];
+                ctx.fillText(prime, x, y);
+
+                if (index > 0) {
+                    const prevPrimeObj = currentPath[index - 1];
+                    ctx.strokeStyle = colors[(index % colors.length)];
+                    ctx.beginPath();
+                    ctx.moveTo(prevPrimeObj.x, prevPrimeObj.y);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            });
+
+            // Draw the returning path line to form the loop
+            const firstPrime = currentPath[0];
+            const lastPrime = currentPath[currentPath.length - 1];
+            ctx.strokeStyle = colors[(currentPath.length % colors.length)];
+            ctx.beginPath();
+            ctx.moveTo(lastPrime.x, lastPrime.y);
+            ctx.lineTo(firstPrime.x, firstPrime.y);
+            ctx.stroke();
+
+            ctx.restore();
+        };
+
+        // Animate the visualization
+        const animate = () => {
+            drawSpiralPrimes();
+            drawTSPPrimes();
+
+            // Increment currentPathIndex to animate through paths
+            currentPathIndex = (currentPathIndex + 1) % allPaths.length;
+
+            if (isAnimating) {
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        };
+
+        // Event listeners for interaction
+        canvas.addEventListener('wheel', (event) => {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            if (event.deltaY < 0) {
+                zoomLevel *= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) * 1.1;
+                offsetY = mouseY - (mouseY - offsetY) * 1.1;
+            } else {
+                zoomLevel /= 1.1;
+                offsetX = mouseX - (mouseX - offsetX) / 1.1;
+                offsetY = mouseY - (mouseY - offsetY) / 1.1;
+            }
+            drawSpiralPrimes();
+            drawTSPPrimes();
+        });
+
+        canvas.addEventListener('click', () => {
+            if (isAnimating) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                animate();
+            }
+            isAnimating = !isAnimating;
+        });
+
+        generatePrimes();
+        permute(primes, 0, primes.length - 1);
+        animate();
+    </script>
+</body>
+</html>

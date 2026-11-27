@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+
+        #calculator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            cursor: move;
+        }
+
+        #clearButton {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #dc3545;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #clearButton:hover {
+            background: #c82333;
+        }
+
+        #resultsButton {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #resultsButton:hover {
+            background: #218838;
+        }
+
+        #resultsContainer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            max-width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            overflow-y: auto;
+            max-height: 50%;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <h2>Dynamic Graph Calculator</h2>
+        <div>
+            <label>Value A: <input type="number" class="input-value" id="valueA"></label><br>
+            <label>Value B: <input type="number" class="input-value" id="valueB"></label><br>
+            <label>Value C: <input type="number" class="input-value" id="valueC"></label><br>
+        </div>
+        <div>
+            <label>Operation:
+                <select id="operation">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="+ | +">+ | +</option>
+                    <option value="- | -">- | -</option>
+                </select>
+            </label>
+        </div>
+        <button id="calculate">Calculate</button>
+        <button id="clearButton">Clear Background</button>
+        <button id="resultsButton">Show Results</button>
+        <input type="text" id="total" readonly>
+    </div>
+
+    <div id="resultsContainer" style="display: none;"></div>
+
+    <script>
+		const countErdosStrausSolutions = (n) => {
+		  let count = 0;
+		  for (let x = 1; x <= 4 * n; x++) {
+		    for (let y = x; y <= 4 * n; y++) {
+		      for (let z = y; z <= 4 * n; z++) {
+		        if (4 * n * x * y * z == n * x * y * z + 4 * x * y + 4 * x * z + 4 * y * z) {
+		          count++;
+		        }
+		      }
+		    }
+		  }
+		  return count;
+		};
+
+        document.getElementById('calculate').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('.input-value');
+            const values = Array.from(inputs).map(input => parseInt(input.value) || 0).filter(value => value !== 0);
+            const operation = document.getElementById('operation').value;
+            let results = '';
+            let total = 0;
+
+            /* Check if there are enough values to perform calculations */
+            if (values.length > 1) {
+                /* Perform and display results for all operations */
+                for (let i = 0; i < values.length - 1; i++) {
+                    for (let j = i + 1; j < values.length; j++) {
+                        const a = values[i];
+                        const b = values[j];
+                        results += `${a} + ${b} = ${a + b}\n`;
+                        results += `${a} - ${b} = ${a - b}\n`;
+
+                        for (let k = j + 1; k < values.length; k++) {
+                            const c = values[k];
+                            results += `${a} + ${c} = ${a + c}\n`;
+                            results += `${a} - ${c} = ${a - c}\n`;
+                            results += `${b} + ${c} = ${b + c}\n`;
+                            results += `${b} - ${c} = ${b - c}\n`;
+                            results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                            if (operation === '+ | +') results += `${a} + ${b} + ${c} = ${a + b + c}\n`;
+                            if (operation === '- | -') results += `${a} - ${b} - ${c} = ${a - b - c}\n`;
+                        }
+						
+						if ((values[i] && values[j]) || (values[j] && values[i])) {
+							values.forEach((count, index) => { console.log(`Number: ${values[index]}, Erdős–Straus Solutions: ${countErdosStrausSolutions(count)}`); });
+							
+						}
+                    }
+                }
+                total = values.reduce((acc, val) => acc + val, 0);
+            }
+
+            /* Display results in the results container */
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.textContent = results;
+            resultsContainer.style.display = 'block';
+            document.getElementById('total').value = `Total: ${total}`;
+        });
+
+        document.getElementById('clearButton').addEventListener('click', () => {
+            document.getElementById('resultsContainer').textContent = '';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('total').value = '';
+        });
+
+        document.getElementById('resultsButton').addEventListener('click', () => {
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.style.display = resultsContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

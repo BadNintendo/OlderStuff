@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Graph Calculator</title>
+    <script>
+	const zap = (...conditions) => {
+    // Log the input conditions for proof
+    console.log("Input conditions:", conditions.join(', '));
+
+    // Parse the conditions into an array of comparison objects
+    let comparisons = conditions.map(condition => {
+        let match;
+        if ((match = condition.match(/([><=]+)(\d+)/))) {
+            let operator = match[1];
+            let value = parseFloat(match[2]);
+            return { 
+                operator: operator,
+                value: value,
+                func: (num) => {
+                    switch(operator) {
+                        case '>': return num > value;
+                        case '<': return num < value;
+                        case '>=': return num >= value;
+                        case '<=': return num <= value;
+                        default: return false;
+                    }
+                }
+            };
+        }
+    }).filter(Boolean);
+
+    // Sample array for testing
+    let numbers = [100, 200, 300, 400, 50, 150, 250];
+    
+    // Apply conditions to numbers
+    let results = numbers.map(num => {
+        let result = comparisons.reduce((acc, comp) => {
+            if (comp.func(num)) {
+                if (acc === null || comp.value > acc.value) {
+                    return comp;
+                }
+            }
+            return acc;
+        }, null);
+        return result ? result.value : 0;
+    });
+
+    // Determine the final result based on the highest value from comparisons
+    let maxResult = Math.max(...results);
+    let finalResult = results.reduce((acc, val, index) => {
+        if (val === maxResult) return numbers[index];
+        if (acc === null || val > acc) return numbers[index];
+        return acc;
+    }, null);
+
+    // Log the sorted numbers based on the conditions
+    console.log("Sorted results based on conditions:", results);
+    console.log("Final result:", finalResult || 0);
+};
+
+// Example usage
+zap(">148", ">=<248<=", ">48<");
+</script>
+</head>
+<body></body></html>

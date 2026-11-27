@@ -1,0 +1,121 @@
+
+<style>
+main {
+    width: max-content;
+    position: relative;
+    display: flex;
+    height: 100vh;
+    min-width: 100%;
+}
+
+.profiles-container {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-auto-columns: calc(50vh - 72px / 2);
+    grid-auto-flow: column;
+}
+
+.profile {
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+}
+
+.profile__thumbnail {
+    position: relative;
+}
+
+.profile__thumbnail:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.profile__thumbnail img {
+    width: 100%;
+    border-style: none;
+}
+
+.profile__role {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fc0;
+}
+
+.profile__role a,
+.profile__meta a {
+    color: inherit;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile__name {
+    margin-bottom: 1.3vh;
+    font-size: 4.1vh;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: Rajdhani, sans-serif;
+    font-weight: 700;
+    letter-spacing: -.06em;
+}
+
+.profile__meta {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.profile__body {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    transition: transform .7s ease;
+}
+
+.profile:hover .profile__body {
+    transform: translateY(0);
+}
+
+.profile__body {
+    transform: translateY(100px);
+    transform: translateY(13.02083vh);
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+</style>
+<main>
+    <div class="profiles-container">
+        <div class="profile">
+            <div class="profile__thumbnail">
+                <img src="/profile/username/avatar.png" alt="User Avatar">
+            </div>
+            <div class="profile__body">
+                <div class="profile__header">
+                    <ul class="list-unstyled">
+                        <li class="profile__role">
+                            <a href="#">Role</a>
+                        </li>
+                    </ul>
+                    <h2 class="profile__name">
+                        <a href="/profile/username">Username</a>
+                    </h2>
+                    <ul class="list-unstyled">
+                        <li class="profile__meta">
+                            <a href="#">Info like Date</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="profile__excerpt">lot of info</div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Visualization with Morton Order</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cityCanvas" width="1200" height="1200"></canvas>
+    <script>
+        const canvas = document.getElementById('cityCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const colors = ['#FF0000', '#FFA500', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFFFFF', '#808080'];
+        let cities = [];
+        let sortedPath = [];
+        let zoomLevel = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isAnimating = true;
+
+        // Generate random cities with coordinates
+        const generateCities = numCities => {
+            for (let i = 0; i < numCities; i++) {
+                cities.push({ id: i, x: Math.random(), y: Math.random() });
+            }
+        };
+
+        // Function to compute Morton order (Z-order curve)
+        const mortonOrder = city => {
+            const spreadBits = v => {
+                v = (v | (v << 8)) & 0x00FF00FF;
+                v = (v | (v << 4)) & 0x0F0F0F0F;
+                v = (v | (v << 2)) & 0x33333333;
+                v = (v | (v << 1)) & 0x55555555;
+                return v;
+            };
+            const x = Math.floor(city.x * 10000);
+            const y = Math.floor(city.y * 10000);
+            return spreadBits(x) | (spreadBits(y) << 1);
+        };
+
+        // Function to sort and connect cities based on Morton order
+        const dontMatter = cities => {
+            if (!cities.length) {
+                console.log("No cities to process. Please check the input data.");
+                return [];
+            }
+
+            const startSortTime = performance.now();
+
+            // Sort cities based on Morton order
+            const citiesSorted = cities.slice().sort((a, b) => mortonOrder(a) - mortonOrder(b));
+            sortedPath = [citiesSorted[0]];
+
+            while (citiesSorted.length > 1) {
+                const currentCity = sortedPath[sortedPath.length - 1];
+                citiesSorted.shift();
+                const closestCity = citiesSorted.reduce((minCity, city) =>
+                    (Math.abs(city.x - currentCity.x) < Math.abs(minCity.x - currentCity.x) ||
+                    Math.abs(city.y - currentCity.y) < Math.abs(minCity.y - currentCity.y))
+                        ? city
+                        : minCity
+                );
+                sortedPath.push(closestCity);
+                citiesSorted.splice(citiesSorted.indexOf(closestCity), 1);
+            }
+
+            // Complete the loop
+            sortedPath.push(sortedPath[0]);
+
+            const endSortTime = performance.now();
+            console.log(`Sort Time (ms): ${endSortTime - startSortTime}`);
+
+            return sortedPath;
+        };
+
+        // Draw cities and connecting lines
+        const drawCities = () => {
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(zoomLevel, zoomLevel);
+            ctx.translate(width / 2, height / 2);
+
+            sortedPath.forEach((city, index) => {
+                const x = city.x * width;
+                const y = city.y * height;
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.fillText(city.id, x, y);
+
+                if (index > 0) {
+                    const prevCity = sortedPath[index - 1];
+                    const prevX = prevCity.x * width;
+                    const prevY = prevCity.y * height;
+                    ctx.strokeStyle = colors[index % colors.length];
+                    ctx.beginPath();
+                    ctx.moveTo(prevX, prevY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+            });
+
+            ctx.restore();
+        };
+
+        // Animation loop
+        const animate = () => {
+            drawCities();
+            if (isAnimating) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        // Zoom functionality
+        canvas.addEventListener('wheel', event => {
+            const { offsetX: mouseX, offsetY: mouseY } = event;
+            const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9;
+            zoomLevel *= zoomFactor;
+            offsetX = mouseX - (mouseX - offsetX) * zoomFactor;
+            offsetY = mouseY - (mouseY - offsetY) * zoomFactor;
+            drawCities();
+        });
+
+        // Pause and resume animation on click
+        canvas.addEventListener('click', () => {
+            isAnimating = !isAnimating;
+            if (isAnimating) animate();
+        });
+
+        generateCities(30000);
+        dontMatter(cities);
+        drawCities();
+        animate();
+    </script>
+</body>
+</html>

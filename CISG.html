@@ -1,0 +1,77 @@
+<head>
+    <title>Computational Intractability in Strategy Games</title>
+</head>
+<body>
+<script>
+   const evaluateMoves = (board, playerPieces, opponentPieces) => {
+    const DIRECTIONS = [-9, -7, 7, 9]; // Example offsets for movement; adjust based on board structure.
+    
+    // Utility function to check if a position is within bounds and is an empty space
+    const isValidMove = (pos) => pos >= 0 && pos < board.length && board[pos] === null;
+
+    // Evaluate all potential moves for the player's pieces
+    const getTopMoves = playerPieces.flatMap((piece) => {
+        let moves = [];
+        
+        DIRECTIONS.forEach((direction) => {
+            const forwardPos = piece + direction;
+            
+            // Forward empty space: basic move without a capture
+            if (isValidMove(forwardPos)) {
+                moves.push({ type: 'move', piece, to: forwardPos, score: 1 });
+            }
+            
+            // Attack move: check if enemy is adjacent and if jump is possible
+            const attackPos = piece + direction * 2;
+            const enemyPos = piece + direction;
+            
+            if (
+                board[enemyPos] === 'enemy' &&
+                isValidMove(attackPos) // Check if landing spot after capture is empty
+            ) {
+                // Analyze "risk" of leaving position after a jump move
+                const riskScore = opponentThreatAnalysis(attackPos, opponentPieces, board);
+                moves.push({ type: 'jump', piece, to: attackPos, captured: enemyPos, score: 10 - riskScore });
+            }
+        });
+        
+        return moves;
+    })
+    .sort((a, b) => b.score - a.score) // Sort by score descending
+    .slice(0, 5); // Select the top 5 moves
+
+    return getTopMoves;
+};
+
+// Helper function to assess opponent's possible moves from a given position
+const opponentThreatAnalysis = (pos, opponentPieces, board) => {
+    let threatScore = 0;
+    const THREAT_DIRECTIONS = [-9, -7, 7, 9]; // Directions opponent can move or jump
+    
+    opponentPieces.forEach((opponentPiece) => {
+        THREAT_DIRECTIONS.forEach((direction) => {
+            const adjacent = opponentPiece + direction;
+            const jumpPos = adjacent + direction;
+            
+            if (adjacent === pos) {
+                threatScore += 5; // Potential threat if adjacent
+            } else if (board[adjacent] === 'empty' && jumpPos === pos) {
+                threatScore += 10; // Immediate jump threat
+            }
+        });
+    });
+
+    return threatScore;
+};
+
+// Usage example: assuming board is a 1D array with null (empty), 'player', and 'enemy' as values
+let board = Array(64).fill(null);
+let playerPieces = [22, 25, 26]; // Player piece positions
+let opponentPieces = [31, 33, 36]; // Opponent piece positions
+
+// Run the move evaluation function
+const bestMoves = evaluateMoves(board, playerPieces, opponentPieces);
+console.log(bestMoves);
+</script>
+</body>
+</html>
